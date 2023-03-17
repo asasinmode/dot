@@ -87,3 +87,5 @@ map('n', '<leader>tc', function() Util.toggle('conceallevel', false, { 0, concea
 
 -- fugitive
 map('n', '<leader>gs', vim.cmd.Git, { desc = 'Fu[G]itive [S]tatus' })
+
+map('n', '<leader>db', '<cmd>bp|bd#<cr>', { desc = '[D]elete current [B]uffer' })
