@@ -1,18 +1,18 @@
 return {
 	{
-		'navarasu/onedark.nvim',
+		"navarasu/onedark.nvim",
 		opts = {
-			style = 'deep',
+			style = "deep",
 			transparent = true,
 			code_style = {
-				comments = 'none',
+				comments = "none",
 			},
 			lualine = {
-				transparent = true
+				transparent = true,
 			},
 			diagnostics = {
 				background = false,
-			}
+			},
 		},
 	},
 }

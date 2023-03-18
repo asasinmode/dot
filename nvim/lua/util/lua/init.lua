@@ -1,13 +1,13 @@
 -- Almost a one to one copy of https://github.dev/LazyVim/LazyVim/blob/main/lua/lazyvim/util/init.lua
-local Util = require('lazy.core.util')
+local Util = require("lazy.core.util")
 
 local M = {}
 
-M.root_patterns = { '.git', 'lua' }
+M.root_patterns = { ".git", "lua" }
 
 ---@param on_attach fun(client, buffer)
 function M.on_attach(on_attach)
-	vim.api.nvim_create_autocmd('LspAttach', {
+	vim.api.nvim_create_autocmd("LspAttach", {
 		callback = function(args)
 			local buffer = args.buf
 			local client = vim.lsp.get_client_by_id(args.data.client_id)
@@ -18,13 +18,13 @@ end
 
 ---@param plugin string
 function M.has(plugin)
-	return require('lazy.core.config').plugins[plugin] ~= nil
+	return require("lazy.core.config").plugins[plugin] ~= nil
 end
 
 ---@param fn fun()
 function M.on_very_lazy(fn)
-	vim.api.nvim_create_autocmd('User', {
-		pattern = 'VeryLazy',
+	vim.api.nvim_create_autocmd("User", {
+		pattern = "VeryLazy",
 		callback = function()
 			fn()
 		end,
@@ -33,12 +33,12 @@ end
 
 ---@param name string
 function M.opts(name)
-	local plugin = require('lazy.core.config').plugins[name]
+	local plugin = require("lazy.core.config").plugins[name]
 	if not plugin then
 		return {}
 	end
-	local Plugin = require('lazy.core.plugin')
-	return Plugin.values(plugin, 'opts', false)
+	local Plugin = require("lazy.core.plugin")
+	return Plugin.values(plugin, "opts", false)
 end
 
 -- returns the root directory based on:
@@ -50,15 +50,18 @@ end
 function M.get_root()
 	---@type string?
 	local path = vim.api.nvim_buf_get_name(0)
-	path = path ~= '' and vim.loop.fs_realpath(path) or nil
+	path = path ~= "" and vim.loop.fs_realpath(path) or nil
 	---@type string[]
 	local roots = {}
 	if path then
 		for _, client in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
 			local workspace = client.config.workspace_folders
-			local paths = workspace and vim.tbl_map(function(ws)
+			local paths = workspace
+					and vim.tbl_map(function(ws)
 						return vim.uri_to_fname(ws.uri)
-					end, workspace) or client.config.root_dir and { client.config.root_dir } or {}
+					end, workspace)
+				or client.config.root_dir and { client.config.root_dir }
+				or {}
 			for _, p in ipairs(paths) do
 				local r = vim.loop.fs_realpath(p)
 				if path:find(r, 1, true) then
@@ -90,16 +93,16 @@ function M.telescope(builtin, opts)
 	return function()
 		builtin = params.builtin
 		opts = params.opts
-		opts = vim.tbl_deep_extend('force', { cwd = M.get_root(), hidden = true }, opts or {})
-		if builtin == 'files' then
-			if vim.loop.fs_stat((opts.cwd or vim.loop.cwd()) .. '/.git') then
+		opts = vim.tbl_deep_extend("force", { cwd = M.get_root(), hidden = true }, opts or {})
+		if builtin == "files" then
+			if vim.loop.fs_stat((opts.cwd or vim.loop.cwd()) .. "/.git") then
 				opts.show_untracked = true
-				builtin = 'git_files'
+				builtin = "git_files"
 			else
-				builtin = 'find_files'
+				builtin = "find_files"
 			end
 		end
-		require('telescope.builtin')[builtin](opts)
+		require("telescope.builtin")[builtin](opts)
 	end
 end
 
@@ -112,14 +115,14 @@ function M.toggle(option, silent, values)
 		else
 			vim.opt_local[option] = values[1]
 		end
-		return Util.info('Set ' .. option .. ' to ' .. vim.opt_local[option]:get(), { title = 'Option' })
+		return Util.info("Set " .. option .. " to " .. vim.opt_local[option]:get(), { title = "Option" })
 	end
 	vim.opt_local[option] = not vim.opt_local[option]:get()
 	if not silent then
 		if vim.opt_local[option]:get() then
-			Util.info('Enabled ' .. option, { title = 'Option' })
+			Util.info("Enabled " .. option, { title = "Option" })
 		else
-			Util.warn('Disabled ' .. option, { title = 'Option' })
+			Util.warn("Disabled " .. option, { title = "Option" })
 		end
 	end
 end
@@ -129,10 +132,10 @@ function M.toggle_diagnostics()
 	enabled = not enabled
 	if enabled then
 		vim.diagnostic.enable()
-		Util.info('Enabled diagnostics', { title = 'Diagnostics' })
+		Util.info("Enabled diagnostics", { title = "Diagnostics" })
 	else
 		vim.diagnostic.disable()
-		Util.warn('Disabled diagnostics', { title = 'Diagnostics' })
+		Util.warn("Disabled diagnostics", { title = "Diagnostics" })
 	end
 end
 

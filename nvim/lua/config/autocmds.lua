@@ -1,32 +1,32 @@
 local function augroup(name)
-	return vim.api.nvim_create_augroup('asasinmode_' .. name, { clear = true })
+	return vim.api.nvim_create_augroup("asasinmode_" .. name, { clear = true })
 end
 
 -- check if we need to reload the file when it changed
-vim.api.nvim_create_autocmd({ 'FocusGained', 'TermClose', 'TermLeave' }, {
-	group = augroup('checktime'),
-	command = 'checktime',
+vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
+	group = augroup("checktime"),
+	command = "checktime",
 })
 
 -- highlight on yank
-vim.api.nvim_create_autocmd('TextYankPost', {
-	group = augroup('highlight_yank'),
+vim.api.nvim_create_autocmd("TextYankPost", {
+	group = augroup("highlight_yank"),
 	callback = function()
 		vim.highlight.on_yank()
 	end,
 })
 
 -- resize splits if window got resized
-vim.api.nvim_create_autocmd({ 'VimResized' }, {
-	group = augroup('resize_splits'),
+vim.api.nvim_create_autocmd({ "VimResized" }, {
+	group = augroup("resize_splits"),
 	callback = function()
-		vim.cmd('tabdo wincmd =')
+		vim.cmd("tabdo wincmd =")
 	end,
 })
 
 -- go to last loc when opening a buffer
-vim.api.nvim_create_autocmd('BufReadPost', {
-	group = augroup('last_loc'),
+vim.api.nvim_create_autocmd("BufReadPost", {
+	group = augroup("last_loc"),
 	callback = function()
 		local mark = vim.api.nvim_buf_get_mark(0, '"')
 		local lcount = vim.api.nvim_buf_line_count(0)
@@ -37,9 +37,9 @@ vim.api.nvim_create_autocmd('BufReadPost', {
 })
 
 -- wrap and check for spell in text filetypes
-vim.api.nvim_create_autocmd('FileType', {
-	group = augroup('wrap_spell'),
-	pattern = { 'gitcommit', 'markdown' },
+vim.api.nvim_create_autocmd("FileType", {
+	group = augroup("wrap_spell"),
+	pattern = { "gitcommit", "markdown" },
 	callback = function()
 		vim.opt_local.wrap = true
 		vim.opt_local.spell = true
@@ -47,11 +47,11 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 -- set netrw list style to tree
-vim.api.nvim_create_autocmd('BufModifiedSet', {
-	group = augroup('netwr'),
+vim.api.nvim_create_autocmd("BufModifiedSet", {
+	group = augroup("netwr"),
 	pattern = { "*" },
 	callback = function()
-		if not (vim.bo and vim.bo.filetype == 'netrw') then
+		if not (vim.bo and vim.bo.filetype == "netrw") then
 			return
 		end
 

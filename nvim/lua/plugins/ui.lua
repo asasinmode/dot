@@ -38,13 +38,13 @@ return {
 				filtered_items = {
 					hide_hidden = false,
 					hide_dotfiles = false,
-				}
+				},
 			},
 			window = {
 				mappings = {
 					["<space>"] = "none",
 				},
-				width = 35
+				width = 35,
 			},
 			default_component_configs = {
 				indent = {
@@ -63,39 +63,40 @@ return {
 		event = "VeryLazy",
 		opts = {
 			options = {
-				theme = 'onedark',
+				theme = "onedark",
 				globalstatus = true,
 				disabled_filetypes = {
-					statusline = { 'dashboard', 'lazy', 'alpha', 'mason', 'Trouble', 'fugitive', 'help', 'gitcommit' } },
-				component_separators = '|',
-				section_separators = { left = '', right = '' },
+					statusline = { "dashboard", "lazy", "alpha", "mason", "Trouble", "fugitive", "help", "gitcommit" },
+				},
+				component_separators = "|",
+				section_separators = { left = "", right = "" },
 			},
 			sections = {
 				lualine_a = {
-					{ 'mode', separator = { left = '' }, right_padding = 1 },
+					{ "mode", separator = { left = "" }, right_padding = 1 },
 				},
-				lualine_b = { 'filename', 'branch' },
+				lualine_b = { "filename", "branch" },
 				lualine_c = {},
 				lualine_x = {},
-				lualine_y = { 'filetype' },
+				lualine_y = { "filetype" },
 				lualine_z = {
-					{ 'location', separator = { right = '' }, left_padding = 1 },
+					{ "location", separator = { right = "" }, left_padding = 1 },
 				},
 			},
 			extensions = { "neo-tree" },
-		}
+		},
 	},
 
 	-- noicer ui
 	{
-		'folke/noice.nvim',
-		event = 'VeryLazy',
+		"folke/noice.nvim",
+		event = "VeryLazy",
 		opts = {
 			lsp = {
 				override = {
-					['vim.lsp.util.convert_input_to_markdown_lines'] = true,
-					['vim.lsp.util.stylize_markdown'] = true,
-					['cmp.entry.get_documentation'] = true,
+					["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+					["vim.lsp.util.stylize_markdown"] = true,
+					["cmp.entry.get_documentation"] = true,
 				},
 			},
 			notify = {
@@ -116,62 +117,72 @@ return {
 					},
 					win_options = {
 						winhighlight = {
-							Normal = 'Normal',
-							FloatBorder = 'Normal',
+							Normal = "Normal",
+							FloatBorder = "Normal",
 						},
 					},
 				},
 				mini = {
 					position = {
-						row = -2
+						row = -2,
 					},
-				}
+				},
 			},
 		},
 		keys = {
 			{
-				'<S-Enter>',
-				function() require('noice').redirect(vim.fn.getcmdline()) end,
-				mode = 'c',
-				desc = 'Redirect Cmdline',
+				"<S-Enter>",
+				function()
+					require("noice").redirect(vim.fn.getcmdline())
+				end,
+				mode = "c",
+				desc = "Redirect Cmdline",
 			},
 			{
-				'<c-d>',
-				function() if not require('noice.lsp').scroll(4) then return '<c-d>' end end,
+				"<c-d>",
+				function()
+					if not require("noice.lsp").scroll(4) then
+						return "<c-d>"
+					end
+				end,
 				silent = true,
 				expr = true,
-				desc = 'Scroll forward',
-				mode = { 'i', 'n', 's' },
+				desc = "Scroll forward",
+				mode = { "i", "n", "s" },
 			},
 			{
-				'<c-u>',
-				function() if not require('noice.lsp').scroll(-4) then return '<c-u>' end end,
+				"<c-u>",
+				function()
+					if not require("noice.lsp").scroll(-4) then
+						return "<c-u>"
+					end
+				end,
 				silent = true,
 				expr = true,
-				desc = 'Scroll backward',
-				mode = { 'i', 'n', 's' },
+				desc = "Scroll backward",
+				mode = { "i", "n", "s" },
 			},
 		},
 	},
 
-	{ 'nvim-tree/nvim-web-devicons', lazy = true },
-	{ 'MunifTanjim/nui.nvim',        lazy = true },
+	{ "nvim-tree/nvim-web-devicons", lazy = true },
+	{ "MunifTanjim/nui.nvim", lazy = true },
 
 	{
-		'stevearc/dressing.nvim',
+		"stevearc/dressing.nvim",
 		lazy = true,
 		init = function()
 			---@diagnostic disable-next-line: duplicate-set-field
 			vim.ui.select = function(...)
-				require('lazy').load({ plugins = { 'dressing.nvim' } })
+				require("lazy").load({ plugins = { "dressing.nvim" } })
 				return vim.ui.select(...)
 			end
 
 			---@diagnostic disable-next-line: duplicate-set-field
 			vim.ui.input = function(...)
-				require('lazy').load({ plugins = { 'dressing.nvim' } })
+				require("lazy").load({ plugins = { "dressing.nvim" } })
 				return vim.ui.input(...)
 			end
-		end
+		end,
 	},
 }
