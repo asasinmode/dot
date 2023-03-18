@@ -2,12 +2,6 @@ return {
 	-- snippets
 	{
 		'L3MON4D3/LuaSnip',
-		dependencies = {
-			'rafamadriz/friendly-snippets',
-			config = function()
-				require('luasnip.loaders.from_vscode').lazy_load()
-			end,
-		},
 		opts = {
 			history = true,
 			delete_check_events = 'TextChanged',
@@ -44,6 +38,16 @@ return {
 				completion = {
 					completeopt = 'menu,menuone,noinsert',
 				},
+				window = {
+					completion = {
+						border = 'rounded',
+						winhighlight = "Normal:Normal,FloatBorder:SpecialComment,Search:None",
+					},
+					documentation = {
+						border = 'rounded',
+						winhighlight = "Normal:Normal,FloatBorder:Normal",
+					},
+				},
 				snippet = {
 					expand = function(args)
 						require('luasnip').lsp_expand(args.body)
@@ -73,6 +77,15 @@ return {
 						return item
 					end,
 				},
+				-- disable autocompletion in comments
+				enabled = function()
+					local context = require('cmp.config.context')
+					if vim.api.nvim_get_mode() == 'c' then
+						return true
+					else
+						return not context.in_treesitter_capture('comment') and not context.in_syntax_group('comment')
+					end
+				end,
 				experimental = {
 					ghost_text = {
 						hl_group = 'LspCodeLens',

@@ -4,8 +4,7 @@ return {
 		'neovim/nvim-lspconfig',
 		event = { 'BufReadPre', 'BufNewFile' },
 		dependencies = {
-			{ 'folke/neoconf.nvim', cmd = 'Neoconf',                                config = true },
-			{ 'folke/neodev.nvim',  opts = { experimental = { pathStrict = true } } },
+			{ 'folke/neodev.nvim', opts = { experimental = { pathStrict = true } } },
 			'mason.nvim',
 			'williamboman/mason-lspconfig.nvim',
 			{
@@ -36,9 +35,7 @@ return {
 			-- LSP Server Settings
 			---@type lspconfig.options
 			servers = {
-				jsonls = {},
 				lua_ls = {
-					-- mason = false, -- set to false if you don't want this server to be installed with mason
 					settings = {
 						Lua = {
 							workspace = {
@@ -52,15 +49,15 @@ return {
 					},
 				},
 				eslint = {
+					filetypes = {
+						'html', 'markdown', 'json', 'vue', 'javascript', 'typescript', 'javascript.jsx', 'typescript.jsx'
+					},
 					settings = {
 						-- helps eslint find the eslintrc when it's placed in a subfolder instead of the cwd root
 						workingDirectory = { mode = 'auto' },
 					},
 				}
 			},
-			-- you can do any additional lsp server setup here
-			-- return true if you don't want this server to be setup with lspconfig
-			---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
 			setup = {
 				eslint = function()
 					vim.api.nvim_create_autocmd('BufWritePre', {
@@ -83,7 +80,7 @@ return {
 				require('plugins.lsp.keymaps').on_attach(client, buffer)
 			end)
 
-			-- diagnostics
+			-- diagnostic icons
 			for name, icon in pairs(require('core.lua').icons.diagnostics) do
 				name = 'DiagnosticSign' .. name
 				vim.fn.sign_define(name, { text = icon, texthl = name, numhl = '' })
@@ -146,7 +143,7 @@ return {
 		dependencies = { 'mason.nvim' },
 		opts = function()
 			return {
-				root_dir = require('null-ls.utils').root_pattern('.null-ls-root', '.neoconf.json', 'Makefile', '.git'),
+				root_dir = require('null-ls.utils').root_pattern('.null-ls-root', '.git'),
 				sources = {},
 			}
 		end,
