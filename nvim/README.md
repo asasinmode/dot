@@ -34,6 +34,7 @@ My [neovim](https://neovim.io/) config. Heavily inspired by [LazyVim](https://gi
  - [neovim-webdev-icons](https://github.com/nvim-tree/nvim-web-devicons)
  - [onedark](https://github.com/navarasu/onedark.nvim)
  - [plenary](https://github.com/nvim-lua/plenary.nvim)
+ - [SchemaStore](https://github.com/b0o/SchemaStore.nvim)
  - [telescope](https://github.com/nvim-telescope/telescope.nvim)
  - [telescope-fzy-native](https://github.com/nvim-telescope/telescope-fzy-native.nvim)
  - [trouble](https://github.com/folke/trouble.nvim)

@@ -49,6 +49,8 @@ return {
 				"css",
 				"vue",
 				"json",
+				"jsonc",
+				"json5",
 				"rust",
 			},
 			incremental_selection = {

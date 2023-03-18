@@ -43,11 +43,11 @@ return {
 					},
 				},
 				tsserver = {
-					settings = { format = false },
+					-- settings = { format = false },
 				},
 				jsonls = {
 					on_new_config = function(new_config)
-						new_config.settings.json.schemas = new_config.settings.json.schemars or {}
+						new_config.settings.json.schemas = new_config.settings.json.schemas or {}
 						vim.list_extend(new_config.settings.json.schemas, require("schemastore").json.schemas())
 					end,
 					settings = {
@@ -64,15 +64,15 @@ return {
 				},
 			},
 			setup = {
-				eslint = function()
-					vim.api.nvim_create_autocmd("BufWritePre", {
-						callback = function(event)
-							if require("lspconfig.util").get_active_client_by_name(event.buf, "eslint") then
-								vim.cmd("EslintFixAll")
-							end
-						end,
-					})
-				end,
+				-- eslint = function()
+				-- 	vim.api.nvim_create_autocmd("BufWritePre", {
+				-- 		callback = function(event)
+				-- 			if require("lspconfig.util").get_active_client_by_name(event.buf, "eslint") then
+				-- 				vim.cmd("EslintFixAll")
+				-- 			end
+				-- 		end,
+				-- 	})
+				-- end,
 			},
 		},
 		---@param opts PluginLspOpts
