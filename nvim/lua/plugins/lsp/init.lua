@@ -37,14 +37,6 @@ return {
 						},
 					},
 				},
-				eslint = {
-					settings = {
-						workingDirectory = { mode = "auto" },
-					},
-				},
-				tsserver = {
-					-- settings = { format = false },
-				},
 				jsonls = {
 					on_new_config = function(new_config)
 						new_config.settings.json.schemas = new_config.settings.json.schemas or {}
@@ -59,20 +51,29 @@ return {
 				},
 				cssls = {},
 				html = {},
+				-- volar takeover mode
+				tsserver = {
+					filetypes = { "javascript.jsx", "typescript.tsx" },
+				},
 				volar = {
-					filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue", "json" },
+					filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+				},
+				eslint = {
+					settings = {
+						workingDirectory = { mode = "auto" },
+					},
 				},
 			},
 			setup = {
-				-- eslint = function()
-				-- 	vim.api.nvim_create_autocmd("BufWritePre", {
-				-- 		callback = function(event)
-				-- 			if require("lspconfig.util").get_active_client_by_name(event.buf, "eslint") then
-				-- 				vim.cmd("EslintFixAll")
-				-- 			end
-				-- 		end,
-				-- 	})
-				-- end,
+				eslint = function()
+					vim.api.nvim_create_autocmd("BufWritePre", {
+						callback = function(event)
+							if require("lspconfig.util").get_active_client_by_name(event.buf, "eslint") then
+								vim.cmd("EslintFixAll")
+							end
+						end,
+					})
+				end,
 			},
 		},
 		---@param opts PluginLspOpts
@@ -111,8 +112,7 @@ return {
 			for server, server_opts in pairs(servers) do
 				if server_opts then
 					server_opts = server_opts == true and {} or server_opts
-					-- run manual setup if mason=false or if this is a server that cannot be installed with mason-lspconfig
-					if server_opts.mason == false or not vim.tbl_contains(available, server) then
+					if not vim.tbl_contains(available, server) then
 						setup(server)
 					else
 						ensure_installed[#ensure_installed + 1] = server
