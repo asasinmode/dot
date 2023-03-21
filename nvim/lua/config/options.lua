@@ -41,3 +41,4 @@ opt.undolevels = 10000
 opt.updatetime = 200 -- save swap file and trigger CursorHold
 opt.wildmode = "longest:full,full" -- command-line completion mode
 opt.winminwidth = 5 -- minimum window width
+opt.cmdheight = 0
