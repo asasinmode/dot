@@ -7,13 +7,18 @@ function M.get()
 	local format = require("plugins.lsp.format").format
 	if not M._keys then
 		---@class PluginLspKeys
-    -- stylua: ignore
 		M._keys = {
 			{ "K", vim.lsp.buf.hover, desc = "Hover documentation" },
 			{ "gK", vim.lsp.buf.signature_help, desc = "Signature Help", has = "signatureHelp" },
 			{ "<leader>df", vim.diagnostic.open_float, desc = "[D]iagnostics [F]loating message" },
 			{ "<leader>rn", vim.lsp.buf.rename, desc = "[R]e[N]ame" },
-      { "<leader>ca", vim.lsp.buf.code_action, desc = "[C]ode [A]ction", mode = { "n", "v" }, has = "codeAction" },
+			{
+				"<leader>ca",
+				vim.lsp.buf.code_action,
+				desc = "[C]ode [A]ction",
+				mode = { "n", "v" },
+				has = "codeAction",
+			},
 			{ "gd", "<cmd>Telescope lsp_definitions<cr>", desc = "[G]oto [D]efinition", has = "definition" },
 			{ "gr", "<cmd>Telescope lsp_references<cr>", desc = "[G]oto [R]eferences" },
 			{ "gI", "<cmd>Telescope lsp_implementations<cr>", desc = "[G]oto [I]mplementation" },
@@ -25,7 +30,7 @@ function M.get()
 			{ "]w", M.diagnostic_goto(true, "WARN"), desc = "Next Warning" },
 			{ "[w", M.diagnostic_goto(false, "WARN"), desc = "Prev Warning" },
 			{ "<leader>cf", format, desc = "[C]ode [F]ormat Document", has = "documentFormatting" },
-			{ "<leader>cf", format, desc = "[C]ode [F]ormat Range",	mode = "v",	has = "documentRangeFormatting" },
+			{ "<leader>cf", format, desc = "[C]ode [F]ormat Range", mode = "v", has = "documentRangeFormatting" },
 		}
 	end
 	return M._keys

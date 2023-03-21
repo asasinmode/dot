@@ -52,6 +52,8 @@ return {
 				"jsonc",
 				"json5",
 				"rust",
+				"markdown",
+				"markdown_inline",
 			},
 			incremental_selection = {
 				enable = true,
