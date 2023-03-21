@@ -46,6 +46,15 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
+-- change conceal for markdown files
+vim.api.nvim_create_autocmd("FileType", {
+	group = augroup("markdown_conceal"),
+	pattern = { "markdown" },
+	callback = function()
+		vim.opt_local.conceallevel = 0
+	end,
+})
+
 -- set netrw list style to tree
 vim.api.nvim_create_autocmd("BufModifiedSet", {
 	group = augroup("netwr"),
