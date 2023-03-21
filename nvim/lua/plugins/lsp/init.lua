@@ -58,23 +58,8 @@ return {
 				volar = {
 					filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
 				},
-				eslint = {
-					settings = {
-						workingDirectory = { mode = "auto" },
-					},
-				},
 			},
-			setup = {
-				eslint = function()
-					vim.api.nvim_create_autocmd("BufWritePre", {
-						callback = function(event)
-							if require("lspconfig.util").get_active_client_by_name(event.buf, "eslint") then
-								vim.cmd("EslintFixAll")
-							end
-						end,
-					})
-				end,
-			},
+			setup = {},
 		},
 		---@param opts PluginLspOpts
 		config = function(_, opts)
@@ -101,6 +86,10 @@ return {
 				local server_opts = vim.tbl_deep_extend("force", {
 					capabilities = vim.deepcopy(capabilities),
 				}, servers[server] or {})
+
+				if opts.setup[server] and opts.setup[server](server, server_opts) then
+					return
+				end
 
 				require("lspconfig")[server].setup(server_opts)
 			end
@@ -132,10 +121,18 @@ return {
 		dependencies = { "mason.nvim" },
 		opts = function()
 			local nls = require("null-ls")
+			local eslint_extra_filetypes = { "json", "json5", "yaml", "html" }
+
 			return {
 				root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".git"),
 				sources = {
 					nls.builtins.formatting.stylua,
+					nls.builtins.diagnostics.eslint_d.with({
+						extra_filetypes = eslint_extra_filetypes,
+					}),
+					nls.builtins.formatting.eslint_d.with({
+						extra_filetypes = eslint_extra_filetypes,
+					}),
 				},
 			}
 		end,
