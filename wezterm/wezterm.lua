@@ -10,6 +10,6 @@ return {
 	hide_tab_bar_if_only_one_tab = true,
 	window_background_image = wezterm.home_dir .. '/Documents/terminal.jpg',
 	window_background_image_hsb = {
-		brightness = 0.05
+		brightness = 0.04
 	}
 }
