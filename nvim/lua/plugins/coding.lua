@@ -151,6 +151,9 @@ return {
 				comment_line = "mcc",
 				textobject = "mc",
 			},
+			options = {
+				ignore_blank_line = true,
+			},
 		},
 		config = function(_, opts)
 			require("mini.comment").setup(opts)
