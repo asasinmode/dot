@@ -39,7 +39,7 @@ return {
 				"c",
 				"lua",
 				"vim",
-				"help",
+				"vimdoc",
 				"query",
 				"luap",
 				"typescript",

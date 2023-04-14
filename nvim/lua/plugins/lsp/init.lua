@@ -145,6 +145,7 @@ return {
 		opts = {
 			ensure_installed = {
 				"stylua",
+				"eslint_d",
 			},
 		},
 	},
