@@ -44,7 +44,7 @@ return {
 				mappings = {
 					["<space>"] = "none",
 				},
-				width = 35,
+				width = 31,
 			},
 			default_component_configs = {
 				indent = {
