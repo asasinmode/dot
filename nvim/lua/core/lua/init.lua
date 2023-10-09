@@ -1,7 +1,7 @@
 -- Almost a one to one copy of https://github.dev/LazyVim/LazyVim/blob/main/lua/lazyvim/config/init.lua
 local M = {}
 
-M.lazy_version = ">=9.1.0"
+M.lazy_version = ">=10.8.0"
 
 M.icons = {
 	diagnostics = {
