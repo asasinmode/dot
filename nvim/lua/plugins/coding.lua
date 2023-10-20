@@ -150,6 +150,7 @@ return {
 				comment = "mc",
 				comment_line = "mcc",
 				textobject = "mc",
+				comment_visual = "mc",
 			},
 			options = {
 				ignore_blank_line = true,
