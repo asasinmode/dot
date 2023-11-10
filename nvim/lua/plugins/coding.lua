@@ -6,31 +6,6 @@ return {
 			history = true,
 			delete_check_events = "TextChanged",
 		},
-		keys = {
-			{
-				"<tab>",
-				function()
-					return require("luasnip").jumpable(1) and "<Plug>luasnip-jump-next" or "<tab>"
-				end,
-				expr = true,
-				silent = true,
-				mode = "i",
-			},
-			{
-				"<tab>",
-				function()
-					require("luasnip").jump(1)
-				end,
-				mode = "s",
-			},
-			{
-				"<s-tab>",
-				function()
-					require("luasnip").jump(-1)
-				end,
-				mode = { "i", "s" },
-			},
-		},
 	},
 
 	-- auto completion
@@ -75,7 +50,7 @@ return {
 					["<CR>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace }),
 				}),
 				sources = cmp.config.sources({
-					{ name = "nvim_lsp" },
+					{ name = "nvim_lsp", trigger_characters = { "-", "." } },
 					{ name = "luasnip" },
 					{ name = "buffer" },
 					{ name = "path" },
