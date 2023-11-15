@@ -1,5 +1,5 @@
 vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+vim.g.maplocalleader = "\\"
 vim.g.loaded_python3_provider = 0 -- disable python
 
 vim.api.nvim_exec("language en_US", true) -- fix language on windows
@@ -42,3 +42,8 @@ opt.updatetime = 200 -- save swap file and trigger CursorHold
 opt.wildmode = "longest:full,full" -- command-line completion mode
 opt.winminwidth = 5 -- minimum window width
 opt.cmdheight = 0
+
+vim.o.formatexpr = "v:lua.require'util'.format.formatexpr()"
+
+-- Fix markdown indentation settings
+vim.g.markdown_recommended_style = 0

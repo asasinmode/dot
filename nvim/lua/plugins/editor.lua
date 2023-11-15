@@ -14,15 +14,23 @@ return {
 			end,
 		},
 		keys = {
-			{ "<leader>sr", "<cmd>Telescope oldfiles<cr>", desc = "[S]earch [R]ecent files" },
-			{ "<leader>sg", Util.telescope("live_grep"), desc = "[S]earch [G]rep word" },
-			{ "<leader>sw", Util.telescope("grep_string"), desc = "[S]earch current [W]ord" },
-			{ "<leader>sf", Util.telescope("files"), desc = "[S]earch [F]iles" },
-			{ "<leader>sk", "<cmd>Telescope keymaps<cr>", desc = "[S]earch [K]eymaps" },
-			{ "<leader>sh", "<cmd>Telescope help_tags<cr>", desc = "[S]earch [H]elp" },
-			{ "<leader>sd", "<cmd>Telescope diagnostics<cr>", desc = "[S]earch [D]iagnostics" },
-			{ "<leader>sb", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "[S]earch [B]uffer" },
-			{ "<leader>gc", "<cmd>Telescope git_commits<cr>", desc = "Telescope [G]it [C]ommits" },
+			{ "<leader>sr", "<cmd>Telescope oldfiles<cr>", desc = "search recent files" },
+			{ "<leader>sg", Util.telescope("live_grep"), desc = "grep root dir" },
+			{ "<leader>sf", Util.telescope("files"), desc = "search files" },
+			{ "<leader>sk", "<cmd>Telescope keymaps<cr>", desc = "search keymaps" },
+			{ "<leader>sh", "<cmd>Telescope help_tags<cr>", desc = "search help" },
+			{ "<leader>sd", "<cmd>Telescope diagnostics<cr>", desc = "search diagnostics" },
+			{ "<leader>sb", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "search buffer" },
+			{ "<leader>sc", "<cmd>Telescope git_commits<cr>", desc = "search commits" },
+			{
+				"<leader>ss",
+				function()
+					require("telescope.builtin").lsp_document_symbols({
+						symbols = require("config").get_kind_filter(),
+					})
+				end,
+				desc = "search symbols",
+			},
 		},
 		opts = {
 			defaults = {
@@ -85,8 +93,15 @@ return {
 	-- references
 	{
 		"RRethy/vim-illuminate",
-		event = { "BufReadPost", "BufNewFile" },
-		opts = { delay = 100, under_cursor = false },
+		event = "LazyFile",
+		opts = {
+			delay = 100,
+			under_cursor = false,
+			large_file_cutoff = 2000,
+			large_file_overrides = {
+				providers = { "lsp" },
+			},
+		},
 		config = function(_, opts)
 			require("illuminate").configure(opts)
 
@@ -120,10 +135,10 @@ return {
 		cmd = { "TroubleToggle", "Trouble" },
 		opts = { use_diagnostic_signs = true },
 		keys = {
-			{ "<leader>xx", "<cmd>TroubleToggle document_diagnostics<cr>", desc = "Document Diagnostics (Trouble)" },
-			{ "<leader>xX", "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "Workspace Diagnostics (Trouble)" },
-			{ "<leader>xL", "<cmd>TroubleToggle loclist<cr>", desc = "Location List (Trouble)" },
-			{ "<leader>xQ", "<cmd>TroubleToggle quickfix<cr>", desc = "Quickfix List (Trouble)" },
+			{ "<leader>xx", "<cmd>TroubleToggle document_diagnostics<cr>", desc = "trouble document diagnostics" },
+			{ "<leader>xX", "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "trouble workspace diagnostics" },
+			{ "<leader>xL", "<cmd>TroubleToggle loclist<cr>", desc = "trouble location list" },
+			{ "<leader>xQ", "<cmd>TroubleToggle quickfix<cr>", desc = "trouble quickfix list" },
 			{
 				"[q",
 				function()

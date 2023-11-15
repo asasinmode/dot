@@ -1,62 +1,50 @@
 local M = {}
 
----@type PluginLspKeys
+---@type LazyKeysLspSpec[]|nil
 M._keys = nil
 
+---@alias LazyKeysLspSpec LazyKeysSpec|{has?:string}
+---@alias LazyKeysLsp LazyKeys|{has?:string}
+
+---@return LazyKeysLspSpec[]
 function M.get()
-	local format = require("plugins.lsp.format").format
 	if M._keys then
 		return M._keys
 	end
-	---@class PluginLspKeys
-	M._keys = {
-		{ "K", vim.lsp.buf.hover, desc = "Hover documentation" },
-		{ "gK", vim.lsp.buf.signature_help, desc = "Signature Help", has = "signatureHelp" },
-		{ "<leader>df", vim.diagnostic.open_float, desc = "[D]iagnostics [F]loating message" },
-		{ "<leader>rn", vim.lsp.buf.rename, desc = "[R]e[N]ame" },
-		{
-			"<leader>ca",
-			vim.lsp.buf.code_action,
-			desc = "[C]ode [A]ction",
-			mode = { "n", "v" },
-			has = "codeAction",
-		},
-		{
-			"gd",
-			"<cmd>Telescope lsp_definitions<cr>",
-			desc = "[G]oto [D]efinition",
-			has = "definition",
-		},
-		{ "gr", "<cmd>Telescope lsp_references<cr>", desc = "[G]oto [R]eferences" },
-		{ "gI", "<cmd>Telescope lsp_implementations<cr>", desc = "[G]oto [I]mplementation" },
-		{ "gt", "<cmd>Telescope lsp_type_definitions<cr>", desc = "[G]oto [T]ype Definition" },
-		{ "]d", M.diagnostic_goto(true), desc = "Next Diagnostic" },
-		{ "[d", M.diagnostic_goto(false), desc = "Prev Diagnostic" },
-		{ "]e", M.diagnostic_goto(true, "ERROR"), desc = "Next Error" },
-		{ "[e", M.diagnostic_goto(false, "ERROR"), desc = "Prev Error" },
-		{ "]w", M.diagnostic_goto(true, "WARN"), desc = "Next Warning" },
-		{ "[w", M.diagnostic_goto(false, "WARN"), desc = "Prev Warning" },
-		{
-			"<leader>cf",
-			format,
-			desc = "[C]ode [F]ormat Document",
-			has = "documentFormatting",
-		},
-		{
-			"<leader>cf",
-			format,
-			desc = "[C]ode [F]ormat Range",
-			mode = "v",
-			has = "documentRangeFormatting",
-		},
-	}
+    -- stylua: ignore
+    M._keys =  {
+      { "gd", function() require("telescope.builtin").lsp_definitions({ reuse_win = true }) end, desc = "go to definition", has = "definition" },
+      { "gr", "<cmd>Telescope lsp_references<cr>", desc = "go to references" },
+      { "gD", vim.lsp.buf.declaration, desc = "go to declaration" },
+      { "gI", function() require("telescope.builtin").lsp_implementations({ reuse_win = true }) end, desc = "go to implementation" },
+      { "gt", function() require("telescope.builtin").lsp_type_definitions({ reuse_win = true }) end, desc = "go to type definition" },
+      { "K", vim.lsp.buf.hover, desc = "hover" },
+      { "gK", vim.lsp.buf.signature_help, desc = "signature help", has = "signatureHelp" },
+			{ "<leader>rn", vim.lsp.buf.rename, desc = "Rename", has = "rename" },
+      { "<leader>ca", vim.lsp.buf.code_action, desc = "code action", mode = { "n", "v" }, has = "codeAction" },
+      {
+        "<leader>cA",
+        function()
+          vim.lsp.buf.code_action({
+            context = {
+              only = {
+                "source",
+              },
+              diagnostics = {},
+            },
+          })
+        end,
+        desc = "source action",
+        has = "codeAction",
+      }
+    }
 	return M._keys
 end
 
 ---@param method string
 function M.has(buffer, method)
 	method = method:find("/") and method or "textDocument/" .. method
-	local clients = require("util.lua").get_clients({ bufnr = buffer })
+	local clients = require("lazyvim.util").lsp.get_clients({ bufnr = buffer })
 	for _, client in ipairs(clients) do
 		if client.supports_method(method) then
 			return true
@@ -72,8 +60,8 @@ function M.resolve(buffer)
 		return {}
 	end
 	local spec = M.get()
-	local opts = require("util.lua").opts("nvim-lspconfig")
-	local clients = require("util.lua").get_clients({ bufnr = buffer })
+	local opts = require("lazyvim.util").opts("nvim-lspconfig")
+	local clients = require("lazyvim.util").lsp.get_clients({ bufnr = buffer })
 	for _, client in ipairs(clients) do
 		local maps = opts.servers[client.name] and opts.servers[client.name].keys or {}
 		vim.list_extend(spec, maps)
@@ -93,14 +81,6 @@ function M.on_attach(_, buffer)
 			opts.buffer = buffer
 			vim.keymap.set(keys.mode or "n", keys.lhs, keys.rhs, opts)
 		end
-	end
-end
-
-function M.diagnostic_goto(next, severity)
-	local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
-	severity = severity and vim.diagnostic.severity[severity] or nil
-	return function()
-		go({ severity = severity })
 	end
 end
 

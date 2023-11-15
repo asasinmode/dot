@@ -20,7 +20,9 @@ return {
 			"saadparwaiz1/cmp_luasnip",
 		},
 		opts = function()
+			vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
 			local cmp = require("cmp")
+			local defaults = require("cmp.config.default")()
 			return {
 				completion = {
 					completeopt = "menu,menuone,noinsert",
@@ -52,18 +54,25 @@ return {
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp", trigger_characters = { "-", "." } },
 					{ name = "luasnip" },
-					{ name = "buffer" },
 					{ name = "path" },
+				}, {
+					{ name = "buffer" },
 				}),
 				formatting = {
 					format = function(_, item)
-						local icons = require("core.lua").icons.kinds
+						local icons = require("config").icons.kinds
 						if icons[item.kind] then
 							item.kind = icons[item.kind] .. item.kind
 						end
 						return item
 					end,
 				},
+				experimental = {
+					ghost_text = {
+						hl_group = "LspCodeLens",
+					},
+				},
+				sorting = defaults.sorting,
 				-- disable autocompletion in comments
 				enabled = function()
 					local context = require("cmp.config.context")
@@ -73,12 +82,14 @@ return {
 						return not context.in_treesitter_capture("comment") and not context.in_syntax_group("comment")
 					end
 				end,
-				experimental = {
-					ghost_text = {
-						hl_group = "LspCodeLens",
-					},
-				},
 			}
+		end,
+		---@param opts cmp.ConfigSchema
+		config = function(_, opts)
+			for _, source in ipairs(opts.sources) do
+				source.group_index = source.group_index or 1
+			end
+			require("cmp").setup(opts)
 		end,
 	},
 
@@ -86,9 +97,7 @@ return {
 	{
 		"echasnovski/mini.pairs",
 		event = "VeryLazy",
-		config = function(_, opts)
-			require("mini.pairs").setup(opts)
-		end,
+		opts = {},
 	},
 
 	-- surround
@@ -102,25 +111,22 @@ return {
 				find_left = "msF", -- Find surrounding (to the left)
 				highlight = "msh", -- Highlight surrounding
 				replace = "msr", -- Replace surrounding
-				update_n_lines = "msn", -- Update `n_lines`
 			},
 		},
-		config = function(_, opts)
-			require("mini.surround").setup(opts)
-		end,
 	},
 
 	-- comments
-	{ "JoosepAlviste/nvim-ts-context-commentstring", lazy = true },
+	{
+		"JoosepAlviste/nvim-ts-context-commentstring",
+		lazy = true,
+		opts = {
+			enable_autocmd = false,
+		},
+	},
 	{
 		"echasnovski/mini.comment",
 		event = "VeryLazy",
 		opts = {
-			hooks = {
-				pre = function()
-					require("ts_context_commentstring.internal").update_commentstring({})
-				end,
-			},
 			mappings = {
 				comment = "mc",
 				comment_line = "mcc",
@@ -129,11 +135,12 @@ return {
 			},
 			options = {
 				ignore_blank_line = true,
+				custom_commentstring = function()
+					return require("ts_context_commentstring.internal").calculate_commentstring()
+						or vim.bo.commentstring
+				end,
 			},
 		},
-		config = function(_, opts)
-			require("mini.comment").setup(opts)
-		end,
 	},
 
 	-- better text-objects
