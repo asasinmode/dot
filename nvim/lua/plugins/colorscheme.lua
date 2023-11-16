@@ -1,3 +1,4 @@
+print('color')
 return {
 	{
 		"navarasu/onedark.nvim",

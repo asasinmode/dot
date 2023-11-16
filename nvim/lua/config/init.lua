@@ -1,4 +1,4 @@
-local Util = require("util")
+local Util = require("util.lua")
 
 ---@class Config: Options
 local M = {}

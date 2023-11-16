@@ -1,5 +1,7 @@
 local Util = require("util.lua")
 
+print('thingy lua lsp top')
+
 return {
 	-- lspconfig
 	{
@@ -68,6 +70,7 @@ return {
 		},
 		---@param opts PluginLspOpts
 		config = function(_, opts)
+			print('config start')
 			-- setup autoformat
 			Util.format.register(Util.lsp.formatter())
 
@@ -83,13 +86,14 @@ return {
 
 			local register_capability = vim.lsp.handlers["client/registerCapability"]
 
+			print('setting up handlers')
 			vim.lsp.handlers["client/registerCapability"] = function(err, res, ctx)
 				local ret = register_capability(err, res, ctx)
 				local client_id = ctx.client_id
 				---@type lsp.Client
 				local client = vim.lsp.get_client_by_id(client_id)
 				local buffer = vim.api.nvim_get_current_buf()
-				require("lazyvim.plugins.lsp.keymaps").on_attach(client, buffer)
+				require("plugins.lsp.keymaps").on_attach(client, buffer)
 				return ret
 			end
 
@@ -99,10 +103,11 @@ return {
 				vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
 			end
 
+			print('virtual text thing')
 			if type(opts.diagnostics.virtual_text) == "table" and opts.diagnostics.virtual_text.prefix == "icons" then
 				opts.diagnostics.virtual_text.prefix = vim.fn.has("nvim-0.10.0") == 0 and "●"
 					or function(diagnostic)
-						local icons = require("lazyvim.config").icons.diagnostics
+						local icons = require("config").icons.diagnostics
 						for d, icon in pairs(icons) do
 							if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
 								return icon
@@ -113,6 +118,7 @@ return {
 
 			vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
 
+			print('servers maybe?')
 			local servers = opts.servers
 			local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
 			local capabilities = vim.tbl_deep_extend(
@@ -140,6 +146,7 @@ return {
 				all_mslp_servers = vim.tbl_keys(require("mason-lspconfig.mappings.server").lspconfig_to_package)
 			end
 
+			print('foring servers')
 			local ensure_installed = {} ---@type string[]
 			for server, server_opts in pairs(servers) do
 				if server_opts then

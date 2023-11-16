@@ -1,4 +1,4 @@
-local Util = require("util")
+local Util = require("util.lua")
 
 local map = Util.safe_keymap_set
 
