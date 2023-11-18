@@ -16,7 +16,7 @@ return {
 				html = { "eslint_d" },
 				markdown = { "eslint_d" },
 			},
-			-- LazyVim extension to easily override linter options
+			-- override linter options
 			-- or add custom linters.
 			---@type table<string,table>
 			linters = {

@@ -36,8 +36,8 @@ return {
 		cmd = "ConformInfo",
 		init = function()
 			-- Install the conform formatter on VeryLazy
-			require("util").on_very_lazy(function()
-				require("util").format.register({
+			Util.on_very_lazy(function()
+				Util.format.register({
 					name = "conform.nvim",
 					priority = 100,
 					primary = true,
@@ -60,11 +60,7 @@ return {
 		opts = function()
 			local plugin = require("lazy.core.config").plugins["conform.nvim"]
 			if plugin.config ~= M.setup then
-				Util.error({
-					"Don't set `plugin.config` for `conform.nvim`.\n",
-					"This will break **LazyVim** formatting.\n",
-					"Please refer to the docs at https://www.lazyvim.org/plugins/formatting",
-				}, { title = "not sure when this pops up" })
+				Util.error({}, { title = "not sure when this pops up" })
 			end
 			---@class ConformOpts
 			local opts = {

@@ -112,7 +112,7 @@ end
 
 ---@param opts? lsp.Client.format
 function M.format(opts)
-	opts = vim.tbl_deep_extend("force", {}, opts or {}, require("lazyvim.util").opts("nvim-lspconfig").format or {})
+	opts = vim.tbl_deep_extend("force", {}, opts or {}, require("util").opts("nvim-lspconfig").format or {})
 	local ok, conform = pcall(require, "conform")
 	-- use conform for formatting with LSP when available,
 	-- since it has better format diffing

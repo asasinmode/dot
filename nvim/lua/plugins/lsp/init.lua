@@ -69,12 +69,8 @@ return {
 		---@param opts PluginLspOpts
 		config = function(_, opts)
 			-- setup autoformat
+			Util.format.setup()
 			Util.format.register(Util.lsp.formatter())
-
-			-- deprecated options
-			if opts.autoformat ~= nil then
-				vim.g.autoformat = opts.autoformat
-			end
 
 			-- setup formatting and keymaps
 			Util.lsp.on_attach(function(client, buffer)
