@@ -1,6 +1,6 @@
-local Util = require("util.lua")
+local Util = require("util")
 
----@class lazyvim.util.root
+---@class asasinmode.util.root
 ---@overload fun(): string
 local M = setmetatable({}, {
 	__call = function(m)
@@ -132,7 +132,7 @@ function M.info()
 	lines[#lines + 1] = "```lua"
 	lines[#lines + 1] = "vim.g.root_spec = " .. vim.inspect(spec)
 	lines[#lines + 1] = "```"
-	require("util.lua").info(lines, { title = "Editor Roots" })
+	require("util").info(lines, { title = "Editor Roots" })
 	return roots[1] and roots[1].paths[1] or vim.loop.cwd()
 end
 

@@ -1,4 +1,3 @@
-print('color')
 return {
 	{
 		"navarasu/onedark.nvim",
@@ -15,5 +14,9 @@ return {
 				background = false,
 			},
 		},
+		config = function (_, opts)
+			require('onedark').setup(opts)
+			require('onedark').load()
+		end
 	},
 }

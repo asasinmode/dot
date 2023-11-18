@@ -1,6 +1,6 @@
-local Util = require("util.lua")
+local Util = require("util")
 
----@class lazyvim.util.format
+---@class asasinmode.util.format
 ---@overload fun(opts?: {force?:boolean})
 local M = setmetatable({}, {
 	__call = function(m, ...)
