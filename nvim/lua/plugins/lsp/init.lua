@@ -4,7 +4,7 @@ return {
 	-- lspconfig
 	{
 		"neovim/nvim-lspconfig",
-		event = { "BufReadPre", "BufNewFile" },
+		event = { "BufReadPost", "BufNewFile", "BufWritePre" },
 		dependencies = {
 			{ "folke/neodev.nvim", opts = {} },
 			{ "b0o/SchemaStore.nvim", lazy = true, version = false },
@@ -61,7 +61,7 @@ return {
 					filetypes = { "javascript.jsx", "typescript.tsx" },
 				},
 				volar = {
-					filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+					filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue", "markdown" },
 				},
 			},
 			setup = {},
