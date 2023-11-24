@@ -3,7 +3,7 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		version = false, -- last release is way too old and doesn't work on Windows
 		build = ":TSUpdate",
-		event = { "BufReadPost", "BufNewFile" },
+		event = { "VeryLazy" },
 		init = function(plugin)
 			-- PERF: add nvim-treesitter queries to the rtp and it's custom query predicates early
 			-- This is needed because a bunch of plugins no longer `require("nvim-treesitter")`, which
@@ -48,24 +48,27 @@ return {
 			indent = { enable = true },
 			context_commentstring = { enable = true, enable_autocmd = false },
 			ensure_installed = {
+				"bash",
 				"c",
-				"lua",
-				"vim",
-				"vimdoc",
-				"query",
-				"luap",
-				"typescript",
-				"javascript",
-				"regex",
-				"html",
 				"css",
-				"vue",
+				"diff",
+				"html",
+				"javascript",
 				"json",
-				"jsonc",
 				"json5",
-				"rust",
+				"jsonc",
+				"lua",
+				"luap",
 				"markdown",
 				"markdown_inline",
+				"query",
+				"regex",
+				"rust",
+				"typescript",
+				"vim",
+				"vimdoc",
+				"vue",
+				"yaml",
 			},
 			incremental_selection = {
 				enable = true,
@@ -77,5 +80,8 @@ return {
 				},
 			},
 		},
+		config = function(_, opts)
+			require("nvim-treesitter.configs").setup(opts)
+		end,
 	},
 }
