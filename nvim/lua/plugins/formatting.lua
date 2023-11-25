@@ -77,7 +77,7 @@ return {
 					typescript = { "eslint_d" },
 					vue = { "eslint_d" },
 					json = { "eslint_d" },
-					json5 = { "eslint_d" },
+					jsonc = { "eslint_d" },
 					yaml = { "eslint_d" },
 					html = { "eslint_d" },
 					markdown = { "eslint_d" },
