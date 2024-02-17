@@ -88,7 +88,7 @@ return {
 				formatters = {
 					injected = { options = { ignore_errors = true } },
 					eslint_d = {
-						condition = function(ctx)
+						condition = function(self, ctx)
 							return vim.fs.find(
 								{ "eslint.config.js", ".eslintrc.json" },
 								{ path = ctx.filename, upward = true }
