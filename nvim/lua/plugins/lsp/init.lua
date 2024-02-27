@@ -63,8 +63,14 @@ return {
 				volar = {
 					filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue", "markdown" },
 				},
+				jdtls = {},
+				kotlin_language_server = {},
 			},
-			setup = {},
+			setup = {
+				jdtls = function()
+					return true
+				end,
+			},
 		},
 		---@param opts PluginLspOpts
 		config = function(_, opts)
