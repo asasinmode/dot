@@ -142,6 +142,16 @@ return {
 					},
 				},
 			},
+			routes = {
+				{
+					filter = {
+						event = "lsp",
+						kind = "progress",
+						find = "jdtls",
+					},
+					opts = { skip = true },
+				},
+			},
 		},
 		keys = {
 			{
