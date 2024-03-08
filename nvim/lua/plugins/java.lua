@@ -20,7 +20,6 @@ end
 return {
 	{
 		"mfussenegger/nvim-jdtls",
-		dependencies = { "folke/which-key.nvim" },
 		ft = java_filetypes,
 		opts = function()
 			return {
@@ -98,36 +97,16 @@ return {
 				callback = function(args)
 					local client = vim.lsp.get_client_by_id(args.data.client_id)
 					if client and client.name == "jdtls" then
-						local wk = require("which-key")
-						wk.register({
-							["<leader>cx"] = { name = "+extract" },
-							["<leader>cxv"] = { require("jdtls").extract_variable_all, "Extract Variable" },
-							["<leader>cxc"] = { require("jdtls").extract_constant, "Extract Constant" },
-							["gs"] = { require("jdtls").super_implementation, "Goto Super" },
-							["gS"] = { require("jdtls.tests").goto_subjects, "Goto Subjects" },
-							["<leader>co"] = { require("jdtls").organize_imports, "Organize Imports" },
-						}, { mode = "n", buffer = args.buf })
-						wk.register({
-							["<leader>c"] = { name = "+code" },
-							["<leader>cx"] = { name = "+extract" },
-							["<leader>cxm"] = {
-								[[<ESC><CMD>lua require('jdtls').extract_method(true)<CR>]],
-								"Extract Method",
-							},
-							["<leader>cxv"] = {
-								[[<ESC><CMD>lua require('jdtls').extract_variable_all(true)<CR>]],
-								"Extract Variable",
-							},
-							["<leader>cxc"] = {
-								[[<ESC><CMD>lua require('jdtls').extract_constant(true)<CR>]],
-								"Extract Constant",
-							},
-						}, { mode = "v", buffer = args.buf })
+						-- stylua: ignore start
+						vim.keymap.set("n", "<leader>cxv", require("jdtls").extract_variable_all, { desc = "extract variable", buffer = args.buf })
+						vim.keymap.set("n", "<leader>cxc", require("jdtls").extract_constant, { desc = "extract constant", buffer = args.buf })
+						vim.keymap.set("n", "gl", require("jdtls").super_implementation, { desc = "go to super", buffer = args.buf })
+						vim.keymap.set("n", "<leader>co", require("jdtls").organize_imports, { desc = "organize imports", buffer = args.buf })
 
-						-- User can set additional keymaps in opts.on_attach
-						if opts.on_attach then
-							opts.on_attach(args)
-						end
+						vim.keymap.set("v", "<leader>cxm", [[<ESC><CMD>lua require('jdtls').extract_method(true)<CR>]], { desc = "extract method", buffer = args.buf })
+						vim.keymap.set("v", "<leader>cxv", [[<ESC><CMD>lua require('jdtls').extract_variable_all(true)<CR>]], { desc = "extract method", buffer = args.buf })
+						vim.keymap.set("v", "<leader>cxc", [[<ESC><CMD>lua require('jdtls').extract_constant(true)<CR>]], { desc = "extract method", buffer = args.buf })
+						-- stylua: ignore end
 					end
 				end,
 			})

@@ -1,4 +1,4 @@
-local Util = require('util')
+local Util = require("util")
 
 local map = function(mode, lhs, rhs, opts)
 	local modes = type(mode) == "string" and { mode } or mode
@@ -99,8 +99,6 @@ map("n", "<leader>gs", vim.cmd.Git, { desc = "fugitive status" })
 map("n", "<leader>taf", function() Util.format.toggle() end, { desc = "toggle auto formatting" })
 map("n", "<leader>ts", function() Util.toggle("spell") end, { desc = "toggle spelling" })
 map("n", "<leader>tw", function() Util.toggle("wrap") end, { desc = "toggle word wrap" })
-map("n", "<leader>tL", function() Util.toggle("relativenumber") end, { desc = "toggle relative line numbers" })
-map("n", "<leader>tl", function() Util.toggle.number() end, { desc = "toggle line numbers" })
 map("n", "<leader>td", function() Util.toggle.diagnostics() end, { desc = "toggle diagnostics" })
 local conceallevel = vim.o.conceallevel > 0 and vim.o.conceallevel or 3
 map("n", "<leader>tc", function() Util.toggle("conceallevel", false, {0, conceallevel}) end, { desc = "toggle conceal" })
