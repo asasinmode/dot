@@ -58,13 +58,23 @@ return {
 				html = {},
 				-- volar takeover mode
 				tsserver = {
-					filetypes = { "javascript.jsx", "typescript.tsx" },
+					init_options = {
+						plugins = {
+							{
+								name = "@vue/typescript-plugin",
+								location = "~/AppData/Roaming/npm/node_modules/@vue/typescript-plugin",
+								languages = { "javascript", "typescript", "vue" },
+							},
+						},
+					},
+					filetypes = {
+						"javascript",
+						"typescript",
+						"vue",
+					},
 				},
-				volar = {
-					filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue", "markdown" },
-				},
+				volar = {},
 				jdtls = {},
-				kotlin_language_server = {},
 			},
 			setup = {
 				jdtls = function()
