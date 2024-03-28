@@ -111,6 +111,7 @@ return {
 				find_left = "msF", -- Find surrounding (to the left)
 				highlight = "msh", -- Highlight surrounding
 				replace = "msr", -- Replace surrounding
+				update_n_lines = "",
 			},
 		},
 	},
