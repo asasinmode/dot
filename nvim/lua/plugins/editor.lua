@@ -34,8 +34,8 @@ return {
 		},
 		opts = {
 			defaults = {
-				prompt_prefix = " ",
-				selection_caret = " ",
+				prompt_prefix = "ÔÅî ",
+				selection_caret = "Ôëä ",
 				mappings = {
 					i = {
 						["<C-d>"] = function(...)
@@ -43,6 +43,14 @@ return {
 						end,
 						["<C-u>"] = function(...)
 							return require("telescope.actions").preview_scrolling_up(...)
+						end,
+						["<C-q>"] = function(...)
+							return require("trouble.sources.telescope").open(...)
+						end,
+					},
+					n = {
+						["<C-q>"] = function(...)
+							return require("trouble.sources.telescope").open(...)
 						end,
 					},
 				},
@@ -56,6 +64,7 @@ return {
 					"--smart-case",
 					"--hidden",
 				},
+				file_ignore_patterns = { ".git/" },
 			},
 		},
 	},
@@ -124,8 +133,8 @@ return {
 			})
 		end,
 		keys = {
-			{ "]]", desc = "Next Reference" },
-			{ "[[", desc = "Prev Reference" },
+			{ "]]", desc = "next Reference" },
+			{ "[[", desc = "prev Reference" },
 		},
 	},
 
@@ -135,32 +144,16 @@ return {
 		cmd = { "TroubleToggle", "Trouble" },
 		opts = { use_diagnostic_signs = true },
 		keys = {
-			{ "<leader>xx", "<cmd>TroubleToggle document_diagnostics<cr>", desc = "trouble document diagnostics" },
-			{ "<leader>xX", "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "trouble workspace diagnostics" },
-			{ "<leader>xL", "<cmd>TroubleToggle loclist<cr>", desc = "trouble location list" },
-			{ "<leader>xQ", "<cmd>TroubleToggle quickfix<cr>", desc = "trouble quickfix list" },
-			{
-				"[q",
-				function()
-					if require("trouble").is_open() then
-						require("trouble").previous({ skip_groups = true, jump = true })
-					else
-						vim.cmd.cprev()
-					end
-				end,
-				desc = "Previous trouble/quickfix item",
-			},
-			{
-				"]q",
-				function()
-					if require("trouble").is_open() then
-						require("trouble").next({ skip_groups = true, jump = true })
-					else
-						vim.cmd.cnext()
-					end
-				end,
-				desc = "Next trouble/quickfix item",
-			},
+			{ "<leader>xx", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "trouble document diagnostics" },
+			{ "<leader>xX", "<cmd>Trouble diagnostics toggle<cr>", desc = "trouble workspace diagnostics" },
+			{ "<leader>xL", "<cmd>Trouble loclist toggle<cr>", desc = "trouble location list" },
+			{ "<leader>xQ", "<cmd>Trouble qflist toggle<cr>", desc = "trouble quickfix list" },
 		},
+		config = function(_, opts)
+			require("trouble").setup(opts)
+
+			vim.api.nvim_set_hl(0, "TroubleNormalNC", { blend = 0 })
+			vim.api.nvim_set_hl(0, "TroubleNormal", { blend = 0 })
+		end,
 	},
 }

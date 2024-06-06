@@ -34,6 +34,39 @@ function M.on_attach(on_attach)
 	})
 end
 
+function M.setup_dynamic_capability()
+	local register_capability = vim.lsp.handlers["client/registerCapability"]
+	vim.lsp.handlers["client/registerCapability"] = function(err, res, ctx)
+		---@diagnostic disable-next-line: no-unknown
+		local ret = register_capability(err, res, ctx)
+		local client = vim.lsp.get_client_by_id(ctx.client_id)
+		local buffer = vim.api.nvim_get_current_buf()
+		if client then
+			vim.api.nvim_exec_autocmds("User", {
+				pattern = "LspDynamicCapability",
+				data = { client_id = client.id, buffer = buffer },
+			})
+		end
+		return ret
+	end
+end
+
+---@param fn fun(client:vim.lsp.Client, buffer):boolean?
+---@param opts? {group?: integer}
+function M.on_dynamic_capability(fn, opts)
+	return vim.api.nvim_create_autocmd("User", {
+		pattern = "LspDynamicCapability",
+		group = opts and opts.group or nil,
+		callback = function(args)
+			local client = vim.lsp.get_client_by_id(args.data.client_id)
+			local buffer = args.data.buffer ---@type number
+			if client then
+				return fn(client, buffer)
+			end
+		end,
+	})
+end
+
 ---@param from string
 ---@param to string
 function M.on_rename(from, to)
@@ -90,16 +123,16 @@ function M.formatter(opts)
 		primary = true,
 		priority = 1,
 		format = function(buf)
-			M.format(Util.merge(filter, { bufnr = buf }))
+			M.format(Util.merge({}, filter, { bufnr = buf }))
 		end,
 		sources = function(buf)
 			local clients = M.get_clients(Util.merge(filter, { bufnr = buf }))
-			---@param client lsp.Client
+			---@param client vim.lsp.Client
 			local ret = vim.tbl_filter(function(client)
 				return client.supports_method("textDocument/formatting")
 					or client.supports_method("textDocument/rangeFormatting")
 			end, clients)
-			---@param client lsp.Client
+			---@param client vim.lsp.Client
 			return vim.tbl_map(function(client)
 				return client.name
 			end, ret)
@@ -112,13 +145,16 @@ end
 
 ---@param opts? lsp.Client.format
 function M.format(opts)
-	opts = vim.tbl_deep_extend("force", {}, opts or {}, require("util").opts("nvim-lspconfig").format or {})
+	opts = vim.tbl_deep_extend(
+		"force",
+		{},
+		opts or {},
+		Util.opts("nvim-lspconfig").format or {},
+		Util.opts("conform.nvim").format or {}
+	)
 	local ok, conform = pcall(require, "conform")
-	-- use conform for formatting with LSP when available,
-	-- since it has better format diffing
 	if ok then
 		opts.formatters = {}
-		opts.lsp_fallback = true
 		conform.format(opts)
 	else
 		vim.lsp.buf.format(opts)

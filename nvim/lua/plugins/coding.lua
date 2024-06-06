@@ -55,6 +55,7 @@ return {
 					{ name = "nvim_lsp", trigger_characters = { "-", "." } },
 					{ name = "luasnip" },
 					{ name = "path" },
+					{ name = "lazydev", group_index = 0 },
 				}, {
 					{ name = "buffer" },
 				}),

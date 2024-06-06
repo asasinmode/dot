@@ -1,12 +1,10 @@
 local Util = require("util")
 
 return {
-	-- lspconfig
 	{
 		"neovim/nvim-lspconfig",
 		event = { "BufReadPost", "BufNewFile", "BufWritePre" },
 		dependencies = {
-			{ "folke/neodev.nvim", opts = {} },
 			{ "b0o/SchemaStore.nvim", lazy = true, version = false },
 			"mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
@@ -14,11 +12,20 @@ return {
 		---@class PluginLspOpts
 		opts = {
 			-- options for vim.diagnostic.config()
+			---@type vim.diagnostic.Opts
 			diagnostics = {
 				underline = true,
 				update_in_insert = false,
-				virtual_text = { spacing = 4, prefix = "●" },
+				virtual_text = { spacing = 4, prefix = "‚óè" },
 				severity_sort = true,
+				signs = {
+					text = {
+						[vim.diagnostic.severity.ERROR] = Util.icons.icons.diagnostics.Error,
+						[vim.diagnostic.severity.WARN] = Util.icons.icons.diagnostics.Warn,
+						[vim.diagnostic.severity.HINT] = Util.icons.icons.diagnostics.Hint,
+						[vim.diagnostic.severity.INFO] = Util.icons.icons.diagnostics.Info,
+					},
+				},
 			},
 			-- options for vim.lsp.buf.format
 			-- `bufnr` and `filter` is handled by the formatter,
@@ -56,13 +63,12 @@ return {
 				},
 				cssls = {},
 				html = {},
-				-- volar takeover mode
 				tsserver = {
 					init_options = {
 						plugins = {
 							{
 								name = "@vue/typescript-plugin",
-								location = "~/AppData/Roaming/npm/node_modules/@vue/typescript-plugin",
+								location = "/opt/homebrew/lib/node_modules/@vue/typescript-plugin",
 								languages = { "javascript", "typescript", "vue" },
 							},
 						},
@@ -74,89 +80,27 @@ return {
 					},
 				},
 				volar = {},
-				jdtls = {},
-				yamlls = {
-					on_new_config = function(new_config)
-						new_config.settings.yaml.schemas = vim.tbl_deep_extend(
-							"force",
-							new_config.settings.yaml.schemas or {},
-							require("schemastore").yaml.schemas()
-						)
-					end,
-					settings = {
-						redhat = { telemetry = { enabled = false } },
-						yaml = {
-							keyOrdering = false,
-							format = {
-								enable = true,
-							},
-							validate = true,
-							schemaStore = {
-								-- Must disable built-in schemaStore support to use
-								-- schemas from SchemaStore.nvim plugin
-								enable = false,
-								-- Avoid TypeError: Cannot read properties of undefined (reading 'length')
-								url = "",
-							},
-						},
-					},
-				},
 			},
-			setup = {
-				jdtls = function()
-					return true
-				end,
-				yamlls = function()
-					-- Neovim < 0.10 does not have dynamic registration for formatting
-					if vim.fn.has("nvim-0.10") == 0 then
-						Util.lsp.on_attach(function(client, _)
-							if client.name == "yamlls" then
-								client.server_capabilities.documentFormattingProvider = true
-							end
-						end)
-					end
-				end,
-			},
+			setup = {},
 		},
 		---@param opts PluginLspOpts
 		config = function(_, opts)
 			-- setup autoformat
-			Util.format.setup()
 			Util.format.register(Util.lsp.formatter())
+			Util.format.setup()
 
 			-- setup formatting and keymaps
 			Util.lsp.on_attach(function(client, buffer)
 				require("plugins.lsp.keymaps").on_attach(client, buffer)
 			end)
 
-			local register_capability = vim.lsp.handlers["client/registerCapability"]
-
-			vim.lsp.handlers["client/registerCapability"] = function(err, res, ctx)
-				local ret = register_capability(err, res, ctx)
-				local client_id = ctx.client_id
-				---@type lsp.Client
-				local client = vim.lsp.get_client_by_id(client_id)
-				local buffer = vim.api.nvim_get_current_buf()
-				require("plugins.lsp.keymaps").on_attach(client, buffer)
-				return ret
-			end
+			Util.lsp.setup_dynamic_capability()
+			Util.lsp.on_dynamic_capability(require("plugins.lsp.keymaps").on_attach)
 
 			-- diagnostics
-			for name, icon in pairs(require("util").icons.icons.diagnostics) do
+			for name, icon in pairs(Util.icons.icons.diagnostics) do
 				name = "DiagnosticSign" .. name
 				vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
-			end
-
-			if type(opts.diagnostics.virtual_text) == "table" and opts.diagnostics.virtual_text.prefix == "icons" then
-				opts.diagnostics.virtual_text.prefix = vim.fn.has("nvim-0.10.0") == 0 and "●"
-					or function(diagnostic)
-						local icons = require("util").icons.icons.diagnostics
-						for d, icon in pairs(icons) do
-							if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
-								return icon
-							end
-						end
-					end
 			end
 
 			vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
@@ -250,5 +194,13 @@ return {
 				ensure_installed()
 			end
 		end,
+	},
+
+	{
+		"folke/lazydev.nvim",
+		ft = "lua",
+		opts = {
+			library = {},
+		},
 	},
 }

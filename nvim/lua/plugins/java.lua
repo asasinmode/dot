@@ -47,6 +47,7 @@ return {
 					local fname = vim.api.nvim_buf_get_name(0)
 					local root_dir = opts.root_dir(fname)
 					local project_name = opts.project_name(root_dir)
+
 					local cmd = vim.deepcopy(opts.cmd)
 					if project_name then
 						vim.list_extend(cmd, {
@@ -56,8 +57,26 @@ return {
 							opts.jdtls_workspace_dir(project_name),
 						})
 					end
+
 					return cmd
 				end,
+				settings = {
+					java = {
+						configuration = {
+							runtimes = {
+								{
+									name = "JavaSE-17",
+									path = "C:\\Program Files\\Eclipse Adoptium\\jdk-17.0.10.7-hotspot",
+								},
+								{
+									name = "JavaSE-17",
+									path = "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.3.9-hotspot",
+									default = true,
+								},
+							},
+						},
+					},
+				},
 			}
 		end,
 		config = function()
