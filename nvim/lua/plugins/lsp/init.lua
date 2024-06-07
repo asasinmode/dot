@@ -68,7 +68,7 @@ return {
 						plugins = {
 							{
 								name = "@vue/typescript-plugin",
-								location = "/opt/homebrew/lib/node_modules/@vue/typescript-plugin",
+								location = vim.fn.expand("~/AppData/Roaming/npm/node_modules/@vue/typescript-plugin"),
 								languages = { "javascript", "typescript", "vue" },
 							},
 						},
@@ -80,8 +80,49 @@ return {
 					},
 				},
 				volar = {},
+				jdtls = {},
+				yamlls = {
+					on_new_config = function(new_config)
+						new_config.settings.yaml.schemas = vim.tbl_deep_extend(
+							"force",
+							new_config.settings.yaml.schemas or {},
+							require("schemastore").yaml.schemas()
+						)
+					end,
+					settings = {
+						redhat = { telemetry = { enabled = false } },
+						yaml = {
+							keyOrdering = false,
+							format = {
+								enable = true,
+							},
+							validate = true,
+							schemaStore = {
+								-- Must disable built-in schemaStore support to use
+								-- schemas from SchemaStore.nvim plugin
+								enable = false,
+								-- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+								url = "",
+							},
+						},
+					},
+				},
 			},
-			setup = {},
+			setup = {
+				jdtls = function()
+					return true
+				end,
+				yamlls = function()
+					-- Neovim < 0.10 does not have dynamic registration for formatting
+					if vim.fn.has("nvim-0.10") == 0 then
+						Util.lsp.on_attach(function(client, _)
+							if client.name == "yamlls" then
+								client.server_capabilities.documentFormattingProvider = true
+							end
+						end)
+					end
+				end,
+			},
 		},
 		---@param opts PluginLspOpts
 		config = function(_, opts)
