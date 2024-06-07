@@ -34,8 +34,8 @@ return {
 		},
 		opts = {
 			defaults = {
-				prompt_prefix = "ÔÅî ",
-				selection_caret = "Ôëä ",
+				prompt_prefix = " ",
+				selection_caret = " ",
 				mappings = {
 					i = {
 						["<C-d>"] = function(...)
