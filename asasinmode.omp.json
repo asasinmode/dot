@@ -43,7 +43,6 @@
     {
       "type": "prompt",
       "alignment": "left",
-      "newline": true,
       "segments": [
           {
           "foreground_templates": [
