@@ -55,7 +55,7 @@ return {
 					{ name = "nvim_lsp", trigger_characters = { "-", "." } },
 					{ name = "luasnip" },
 					{ name = "path" },
-					{ name = "lazydev", group_index = 0 },
+					{ name = "lazydev",  group_index = 0 },
 				}, {
 					{ name = "buffer" },
 				}),
@@ -106,9 +106,9 @@ return {
 		"echasnovski/mini.surround",
 		opts = {
 			mappings = {
-				add = "msa", -- Add surrounding in Normal and Visual modes
+				add = "msa",   -- Add surrounding in Normal and Visual modes
 				delete = "msd", -- Delete surrounding
-				find = "msf", -- Find surrounding (to the right)
+				find = "msf",  -- Find surrounding (to the right)
 				find_left = "msF", -- Find surrounding (to the left)
 				highlight = "msh", -- Highlight surrounding
 				replace = "msr", -- Replace surrounding
@@ -139,7 +139,7 @@ return {
 				ignore_blank_line = true,
 				custom_commentstring = function()
 					return require("ts_context_commentstring.internal").calculate_commentstring()
-						or vim.bo.commentstring
+							or vim.bo.commentstring
 				end,
 			},
 		},

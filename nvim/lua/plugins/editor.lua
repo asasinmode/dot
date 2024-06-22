@@ -64,7 +64,7 @@ return {
 					"--smart-case",
 					"--hidden",
 				},
-				file_ignore_patterns = { ".git/" },
+				file_ignore_patterns = { ".git/", "pnpm-lock.yaml", "package-lock.json", "bun.lockb" },
 			},
 		},
 	},

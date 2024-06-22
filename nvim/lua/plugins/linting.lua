@@ -14,6 +14,7 @@ return {
 				yaml = { "eslint_d" },
 				html = { "eslint_d" },
 				markdown = { "eslint_d" },
+				css = { "eslint_d" },
 			},
 			-- override linter options
 			-- or add custom linters.
@@ -22,7 +23,7 @@ return {
 				eslint_d = {
 					condition = function(ctx)
 						return vim.fs.find(
-							{ "eslint.config.js", ".eslintrc.json" },
+							{ "eslint.config.js", "eslint.config.mjs", ".eslintrc.json" },
 							{ path = ctx.filename, upward = true }
 						)[1]
 					end,

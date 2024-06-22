@@ -81,6 +81,7 @@ return {
 					yaml = { "eslint_d" },
 					html = { "eslint_d" },
 					markdown = { "eslint_d" },
+					css = { "eslint_d" },
 				},
 				-- The options you set here will be merged with the builtin formatters.
 				-- You can also define any custom formatters here.
@@ -90,7 +91,7 @@ return {
 					eslint_d = {
 						condition = function(self, ctx)
 							return vim.fs.find(
-								{ "eslint.config.js", ".eslintrc.json" },
+								{ "eslint.config.js", "eslint.config.mjs", ".eslintrc.json" },
 								{ path = ctx.filename, upward = true }
 							)[1]
 						end,
