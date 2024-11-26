@@ -6,11 +6,10 @@ return {
 		cmd = "Telescope",
 		version = false, -- telescope did only one release, so use HEAD for now
 		dependencies = {
-			"natecraddock/telescope-zf-native.nvim",
+			"nvim-telescope/telescope-fzf-native.nvim",
+			build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release",
 			config = function()
-				Util.on_load("telescope.nvim", function()
-					require("telescope").load_extension("zf-native")
-				end)
+				require("telescope").load_extension("fzf")
 			end,
 		},
 		keys = {

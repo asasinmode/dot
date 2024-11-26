@@ -95,6 +95,15 @@ function M.get_config(server)
 	return rawget(configs, server)
 end
 
+---@return {default_config:lspconfig.Config}
+function M.get_raw_config(server)
+	local ok, ret = pcall(require, "lspconfig.configs." .. server)
+	if ok then
+		return ret
+	end
+	return require("lspconfig.server_configurations." .. server)
+end
+
 ---@param server string
 ---@param cond fun( root_dir, config): boolean
 function M.disable(server, cond)
