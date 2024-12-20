@@ -11,10 +11,7 @@ My [neovim](https://neovim.io/) config. Heavily inspired by [LazyVim](https://gi
 
 # plugins
 
- - [cmp-buffer](https://github.com/hrsh7th/cmp-buffer)
- - [cmp-nvim-lsp](https://github.com/hrsh7th/cmp-nvim-lsp)
- - [cmp-path](https://github.com/hrsh7th/cmp-path)
- - [cmp_luasnip](https://github.com/saadparwaiz1/cmp_luasnip)
+ - [blink.cmp](https://github.com/Saghen/blink.cmp)
  - [conform.nvim](https://github.com/stevearc/conform.nvim)
  - [dressing.nvim](https://github.com/stevearc/dressing.nvim)
  - [flit.nvim](https://github.com/ggandor/flit.nvim)
@@ -32,7 +29,6 @@ My [neovim](https://neovim.io/) config. Heavily inspired by [LazyVim](https://gi
  - [neo-tree.nvim](https://github.com/echasnovski/mini.nvim)
  - [noice.nvim](https://github.com/folke/neodev.nvim)
  - [nui.nvim](https://github.com/MunifTanjim/nui.nvim)
- - [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
  - [nvim-jdtls](https://github.com/mfussenegger/nvim-jdtls)
  - [nvim-lint](https://github.com/mfussenegger/nvim-lint)
  - [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
@@ -43,7 +39,7 @@ My [neovim](https://neovim.io/) config. Heavily inspired by [LazyVim](https://gi
  - [onedark.nvim](https://github.com/navarasu/onedark.nvim)
  - [plenary.nvim](https://github.com/nvim-lua/plenary.nvim)
  - [SchemaStore.nvim](https://github.com/b0o/SchemaStore.nvim)
- - [telescope-zf-native.nvim](https://github.com/nvim-telescope/telescope-fzy-native.nvim)
+ - [telescope-fzf-native.nvim](https://github.com/nvim-telescope/telescope-fzf-native.nvim)
  - [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
  - [trouble.nvim](https://github.com/folke/trouble.nvim)
  - [vim-fugitive](https://github.com/tpope/vim-fugitive)
