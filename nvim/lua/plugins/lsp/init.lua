@@ -8,6 +8,7 @@ return {
 			{ "b0o/SchemaStore.nvim", lazy = true, version = false },
 			"mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
+			"saghen/blink.cmp",
 		},
 		---@class PluginLspOpts
 		opts = {
@@ -24,6 +25,14 @@ return {
 						[vim.diagnostic.severity.WARN] = Util.icons.icons.diagnostics.Warn,
 						[vim.diagnostic.severity.HINT] = Util.icons.icons.diagnostics.Hint,
 						[vim.diagnostic.severity.INFO] = Util.icons.icons.diagnostics.Info,
+					},
+				},
+			},
+			capabilities = {
+				workspace = {
+					fileOperations = {
+						didRename = true,
+						willRename = true,
 					},
 				},
 			},
@@ -115,14 +124,11 @@ return {
 					return true
 				end,
 				yamlls = function()
-					-- Neovim < 0.10 does not have dynamic registration for formatting
-					if vim.fn.has("nvim-0.10") == 0 then
-						Util.lsp.on_attach(function(client, _)
-							if client.name == "yamlls" then
-								client.server_capabilities.documentFormattingProvider = true
-							end
-						end)
-					end
+					Util.lsp.on_attach(function(client, _)
+						if client.name == "yamlls" then
+							client.server_capabilities.documentFormattingProvider = true
+						end
+					end)
 				end,
 			},
 		},
@@ -150,11 +156,14 @@ return {
 
 			local servers = opts.servers
 			local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+			local has_blink, blink = pcall(require, "blink.cmp")
 			local capabilities = vim.tbl_deep_extend(
 				"force",
 				{},
 				vim.lsp.protocol.make_client_capabilities(),
-				has_cmp and cmp_nvim_lsp.default_capabilities() or {}
+				has_cmp and cmp_nvim_lsp.default_capabilities() or {},
+				has_blink and blink.get_lsp_capabilities() or {},
+				opts.capabilities or {}
 			)
 
 			local function setup(server)

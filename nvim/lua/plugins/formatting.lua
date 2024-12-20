@@ -82,6 +82,7 @@ return {
 					html = { "eslint_d" },
 					markdown = { "eslint_d" },
 					css = { "eslint_d" },
+					rust = { "rustfmt", lsp_format = "fallback" },
 				},
 				-- The options you set here will be merged with the builtin formatters.
 				-- You can also define any custom formatters here.

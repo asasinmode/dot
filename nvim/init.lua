@@ -20,6 +20,9 @@ require("lazy").setup({
 		-- have outdated releases, which may break your Neovim install.
 		version = false, -- always use the latest git commit
 	},
+	rocks = {
+		enabled = false,
+	},
 	performance = {
 		rtp = {
 			-- disable some rtp plugins

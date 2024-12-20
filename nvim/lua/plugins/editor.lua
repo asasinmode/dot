@@ -7,7 +7,8 @@ return {
 		version = false, -- telescope did only one release, so use HEAD for now
 		dependencies = {
 			"nvim-telescope/telescope-fzf-native.nvim",
-			build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release",
+			-- this doesnt work on windows for some reason, I run it manually in nvim-data/lazy/telescope-fzf-native.nvim
+			build = 'cmake -S. -Bbuild -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release',
 			config = function()
 				require("telescope").load_extension("fzf")
 			end,
