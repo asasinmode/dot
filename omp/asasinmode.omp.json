@@ -1,0 +1,80 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "secondary_prompt": {
+    "template": "❯❯",
+    "foreground": "#f2f9ff",
+    "background": "transparent"
+  },
+  "transient_prompt": {
+    "template": "❯ ",
+    "background": "transparent",
+    "foreground_templates": [
+      "{{if gt .Code 0}}#ff0000{{end}}",
+      "{{if eq .Code 0}}#00ff00{{end}}"
+    ]
+  },
+  "console_title_template": "{{ .Folder }}",
+  "blocks": [
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "properties": {
+            "cache_duration": "none",
+            "style": "folder"
+          },
+          "template": "{{ .Path }} ",
+          "foreground": "#00ffff",
+          "type": "path",
+          "style": "plain"
+        },
+        {
+          "properties": {
+            "cache_duration": "none",
+            "commit_icon": "",
+            "fetch_status": true
+          },
+          "template": "{{ .HEAD }}{{ if or (.Working.Changed) (.Staging.Changed) }}*{{ end }} {{ if gt .Behind 0 }}<#dd9046>\uea9d</>{{ end }}{{ if gt .Ahead 0 }}<#54b0fd>\ueaa0</>{{ end }}",
+          "foreground": "#ff88ff",
+          "type": "git",
+          "style": "plain"
+        }
+      ]
+    },
+    {
+      "type": "rprompt",
+      "segments": [
+        {
+          "properties": {
+            "cache_duration": "none",
+            "threshold": 5000
+          },
+          "template": "{{ .FormattedMs }}",
+          "foreground": "#f2cc81",
+          "type": "executiontime",
+          "style": "plain"
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "properties": {
+            "cache_duration": "none"
+          },
+          "template": "❯ ",
+          "type": "text",
+          "style": "plain",
+          "foreground_templates": [
+            "{{if gt .Code 0}}#ff0000{{end}}",
+            "{{if eq .Code 0}}#00ff00{{end}}"
+          ]
+        }
+      ]
+    }
+  ],
+  "version": 3
+}
