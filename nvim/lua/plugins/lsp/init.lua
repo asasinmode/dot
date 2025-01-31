@@ -79,7 +79,7 @@ return {
 							{
 								name = "@vue/typescript-plugin",
 								location = vim.fn.expand(
-									"~/AppData/Local/fnm_multishells/17792_1738332515834/node_modules/@vue"
+									"~/AppData/Local/fnm_multishells/17792_1738332515834/node_modules/@vue/typescript-plugin"
 								),
 								languages = { "javascript", "typescript", "vue" },
 							},
@@ -172,6 +172,7 @@ return {
 					capabilities = vim.deepcopy(capabilities),
 				}, servers[server] or {})
 
+				---@diagnostic disable-next-line: redundant-parameter
 				if opts.setup[server] and opts.setup[server](server, server_opts) then
 					return
 				end
