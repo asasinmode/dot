@@ -19,6 +19,9 @@ return {
 				update_in_insert = false,
 				virtual_text = { spacing = 4, prefix = "●" },
 				severity_sort = true,
+				float = {
+					border = "rounded",
+				},
 				signs = {
 					text = {
 						[vim.diagnostic.severity.ERROR] = Util.icons.icons.diagnostics.Error,
@@ -43,8 +46,6 @@ return {
 				formatting_options = nil,
 				timeout_ms = nil,
 			},
-			-- LSP Server Settings
-			---@type lspconfig.options
 			servers = {
 				lua_ls = {
 					settings = {
@@ -78,7 +79,7 @@ return {
 							{
 								name = "@vue/typescript-plugin",
 								location = vim.fn.expand(
-									"~/AppData/Local/fnm_multishells/16464_1729180949781/node_modules/@vue"
+									"~/AppData/Local/fnm_multishells/17792_1738332515834/node_modules/@vue"
 								),
 								languages = { "javascript", "typescript", "vue" },
 							},
@@ -197,7 +198,11 @@ return {
 				end
 			end
 
-			mlsp.setup({ ensure_installed = ensure_installed, handlers = { setup } })
+			mlsp.setup({
+				automatic_installation = true,
+				ensure_installed = ensure_installed,
+				handlers = { setup },
+			})
 
 			if Util.lsp.get_config("denols") and Util.lsp.get_config("ts_ls") then
 				local is_deno = require("lspconfig.util").root_pattern("deno.json", "deno.jsonc")

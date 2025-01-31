@@ -2,7 +2,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 vim.g.loaded_python3_provider = 0 -- disable python
 
-vim.api.nvim_exec("language en_US", true) -- fix language on windows
+vim.api.nvim_exec2("language en_US", {}) -- fix language on windows
 
 local opt = vim.opt
 
@@ -47,3 +47,8 @@ vim.o.formatexpr = "v:lua.require'util'.format.formatexpr()"
 
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0
+
+vim.cmd([[
+  aunmenu PopUp
+  anoremenu PopUp.Inspect     <cmd>Inspect<CR>
+]])

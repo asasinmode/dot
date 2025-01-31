@@ -38,8 +38,9 @@ return {
 						---@diagnostic disable: assign-type-mismatch
 						treesitter = { "lsp" },
 						columns = {
+							{ "kind_icon" },
 							{ "label", "label_description", gap = 1 },
-							{ "kind_icon", "kind", gap = 1 },
+							{ "kind" },
 						},
 					},
 				},
@@ -53,9 +54,14 @@ return {
 				},
 				trigger = {
 					show_on_blocked_trigger_characters = { "," },
-					show_on_x_blocked_trigger_characters = { "'", '"', "(", "{", "," },
+					show_on_x_blocked_trigger_characters = { "'", '"', "(", "{", "[", "," },
 				},
 			},
+			enabled = function()
+				return not vim.tbl_contains({ "DressingInput" }, vim.bo.filetype)
+					and vim.bo.buftype ~= "prompt"
+					and vim.b.completion ~= false
+			end,
 			snippets = {
 				expand = function(snippet)
 					require("luasnip").lsp_expand(snippet)
