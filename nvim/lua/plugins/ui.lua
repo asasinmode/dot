@@ -86,7 +86,7 @@ return {
 		event = "VeryLazy",
 		opts = {
 			options = {
-				theme = "onedark",
+				theme = require("colorscheme.lualine"),
 				globalstatus = true,
 				disabled_filetypes = {
 					statusline = { "dashboard", "lazy", "alpha", "mason", "Trouble", "fugitive", "help", "gitcommit" },

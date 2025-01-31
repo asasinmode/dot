@@ -31,6 +31,7 @@ return {
 				end,
 				desc = "search symbols",
 			},
+			{ "<leader>sth", "<cmd>Telescope highlights<cr>", desc = "tmp highlights" },
 		},
 		opts = {
 			defaults = {
