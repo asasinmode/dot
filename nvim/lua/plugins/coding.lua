@@ -1,30 +1,17 @@
 local Util = require("util")
 
 return {
-	-- snippets
-	{
-		"L3MON4D3/LuaSnip",
-		opts = {
-			history = true,
-			delete_check_events = "TextChanged",
-		},
-	},
-
 	---@diagnostic disable: missing-fields
 	{
 		"saghen/blink.cmp",
-		dependencies = {
-			{ "L3MON4D3/LuaSnip", version = "v2.*" },
+		version = "*",
+		opts_extend = {
+			"sources.completion.enabled_providers",
+			"sources.default",
 		},
-		version = "v0.*",
 		---@module 'blink.cmp'
 		---@type blink.cmp.Config
 		opts = {
-			keymap = {
-				preset = "enter",
-				["<C-d>"] = { "scroll_documentation_down", "fallback" },
-				["<C-u>"] = { "scroll_documentation_up", "fallback" },
-			},
 			appearance = {
 				use_nvim_cmp_as_default = false,
 				nerd_font_variant = "mono",
@@ -57,31 +44,21 @@ return {
 					show_on_x_blocked_trigger_characters = { "'", '"', "(", "{", "[", "," },
 				},
 			},
+			sources = {
+				default = { "lsp", "path", "snippets", "buffer" },
+				cmdline = {},
+			},
+			keymap = {
+				preset = "enter",
+				["<C-d>"] = { "scroll_documentation_down", "fallback" },
+				["<C-u>"] = { "scroll_documentation_up", "fallback" },
+			},
 			enabled = function()
 				return not vim.tbl_contains({ "DressingInput" }, vim.bo.filetype)
 					and vim.bo.buftype ~= "prompt"
 					and vim.b.completion ~= false
 			end,
-			snippets = {
-				expand = function(snippet)
-					require("luasnip").lsp_expand(snippet)
-				end,
-				active = function(filter)
-					if filter and filter.direction then
-						return require("luasnip").jumpable(filter.direction)
-					end
-					return require("luasnip").in_snippet()
-				end,
-				jump = function(direction)
-					require("luasnip").jump(direction)
-				end,
-			},
-			sources = {
-				default = { "lsp", "path", "luasnip", "buffer" },
-				cmdline = {},
-			},
 		},
-		opts_extend = { "sources.default" },
 	},
 
 	{
