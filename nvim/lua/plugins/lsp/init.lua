@@ -119,6 +119,31 @@ return {
 						},
 					},
 				},
+				eslint = {
+					settings = {
+						workingDirectories = { mode = "auto" },
+						format = true,
+					},
+					experimental = {
+						useFlatConfig = true,
+					},
+					filetypes = {
+						"javascript",
+						"javascriptreact",
+						"javascript.jsx",
+						"typescript",
+						"typescriptreact",
+						"typescript.tsx",
+						"vue",
+						"svelte",
+						"astro",
+						-- antfu eslint config formatting
+						"html",
+						"css",
+						"markdown",
+						"json",
+					},
+				},
 			},
 			setup = {
 				jdtls = function()
@@ -127,6 +152,13 @@ return {
 				yamlls = function()
 					Util.lsp.on_attach(function(client, _)
 						if client.name == "yamlls" then
+							client.server_capabilities.documentFormattingProvider = true
+						end
+					end)
+				end,
+				eslint = function()
+					Util.lsp.on_attach(function(client, _)
+						if client.name == "eslint" then
 							client.server_capabilities.documentFormattingProvider = true
 						end
 					end)

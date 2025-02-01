@@ -67,15 +67,6 @@ return {
 			},
 			formatters_by_ft = {
 				lua = { "stylua" },
-				javascript = { "eslint_d" },
-				typescript = { "eslint_d" },
-				vue = { "eslint_d" },
-				json = { "eslint_d" },
-				jsonc = { "eslint_d" },
-				yaml = { "eslint_d" },
-				html = { "eslint_d" },
-				markdown = { "eslint_d" },
-				css = { "eslint_d" },
 				rust = { "rustfmt", lsp_format = "fallback" },
 			},
 			-- The options you set here will be merged with the builtin formatters.
@@ -83,14 +74,6 @@ return {
 			---@type table<string, conform.FormatterConfigOverride|fun(bufnr: integer): nil|conform.FormatterConfigOverride>
 			formatters = {
 				injected = { options = { ignore_errors = true } },
-				eslint_d = {
-					condition = function(self, ctx)
-						return vim.fs.find(
-							{ "eslint.config.js", "eslint.config.mjs", ".eslintrc.json" },
-							{ path = ctx.filename, upward = true }
-						)[1]
-					end,
-				},
 			},
 		},
 		config = M.setup,

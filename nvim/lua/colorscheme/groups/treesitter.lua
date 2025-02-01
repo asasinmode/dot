@@ -27,7 +27,7 @@ function M.get()
 		["@diff.minus"]                 = "DiffDelete",
 		["@diff.plus"]                  = "DiffAdd",
 		["@function"]                   = "Function",
-		["@function.builtin"]           = "Special",
+		["@function.builtin"]           = "Function",
 		["@function.call"]              = "@function",
 		["@function.macro"]             = "Macro",
 		["@function.method"]            = "Function",
