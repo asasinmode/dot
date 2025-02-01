@@ -224,6 +224,11 @@ return {
 			ensure_installed = {
 				"stylua",
 			},
+			ui = {
+				border = "rounded",
+				width = 0.8,
+				height = 0.8,
+			},
 		},
 		---@param opts MasonSettings | {ensure_installed: string[]}
 		config = function(_, opts)
