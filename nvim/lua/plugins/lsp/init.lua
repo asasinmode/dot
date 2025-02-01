@@ -79,7 +79,7 @@ return {
 							{
 								name = "@vue/typescript-plugin",
 								location = vim.fn.expand(
-									"~/AppData/Local/fnm_multishells/17792_1738332515834/node_modules/@vue/typescript-plugin"
+									"~/AppData/Local/fnm_multishells/2876_1738416076326/node_modules/@vue/typescript-plugin"
 								),
 								languages = { "javascript", "typescript", "vue" },
 							},
