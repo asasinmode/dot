@@ -11,33 +11,33 @@ function M.get()
 	if M._keys then
 		return M._keys
 	end
-    -- stylua: ignore
-    M._keys =  {
-      { "gd", function() require("telescope.builtin").lsp_definitions({ reuse_win = true }) end, desc = "go to definition", has = "definition" },
-      { "gr", "<cmd>Telescope lsp_references<cr>", desc = "go to references" },
-      { "gD", vim.lsp.buf.declaration, desc = "go to declaration" },
-      { "gI", function() require("telescope.builtin").lsp_implementations({ reuse_win = true }) end, desc = "go to implementation" },
-      { "gt", function() require("telescope.builtin").lsp_type_definitions({ reuse_win = true }) end, desc = "go to type definition" },
-      { "K", vim.lsp.buf.hover, desc = "hover" },
-      { "gK", vim.lsp.buf.signature_help, desc = "signature help", has = "signatureHelp" },
+		-- stylua: ignore
+		M._keys =	{
+			{ "gd", function() require("telescope.builtin").lsp_definitions({ reuse_win = true }) end, desc = "go to definition", has = "definition" },
+			{ "gr", "<cmd>Telescope lsp_references<cr>", desc = "go to references" },
+			{ "gD", vim.lsp.buf.declaration, desc = "go to declaration" },
+			{ "gI", function() require("telescope.builtin").lsp_implementations({ reuse_win = true }) end, desc = "go to implementation" },
+			{ "gt", function() require("telescope.builtin").lsp_type_definitions({ reuse_win = true }) end, desc = "go to type definition" },
+			{ "K", vim.lsp.buf.hover, desc = "hover" },
+			{ "gK", vim.lsp.buf.signature_help, desc = "signature help", has = "signatureHelp" },
 			{ "<leader>rn", vim.lsp.buf.rename, desc = "Rename", has = "rename" },
-      { "<leader>ca", vim.lsp.buf.code_action, desc = "code action", mode = { "n", "v" }, has = "codeAction" },
-      {
-        "<leader>cA",
-        function()
-          vim.lsp.buf.code_action({
-            context = {
-              only = {
-                "source",
-              },
-              diagnostics = {},
-            },
-          })
-        end,
-        desc = "source action",
-        has = "codeAction",
-      }
-    }
+			{ "<leader>ca", vim.lsp.buf.code_action, desc = "code action", mode = { "n", "v" }, has = "codeAction" },
+			{
+				"<leader>cA",
+				function()
+					vim.lsp.buf.code_action({
+						context = {
+							only = {
+								"source",
+							},
+							diagnostics = {},
+						},
+					})
+				end,
+				desc = "source action",
+				has = "codeAction",
+			}
+		}
 	return M._keys
 end
 
