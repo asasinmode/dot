@@ -4,10 +4,10 @@ My [neovim](https://neovim.io/) config. Heavily inspired by [LazyVim](https://gi
 
 # preview
 
-## backgrounds can be found [here](https://drive.google.com/drive/folders/19kI3l1eNs0jmZRAsblz5hJPLAg3g9Gst?usp=drive_link)
-
 ![screenshot 1](https://user-images.githubusercontent.com/63049433/225760996-11a1cd88-675f-4c13-a8ca-82a9c824b626.jpg)
 ![screenshot 2](https://user-images.githubusercontent.com/63049433/225761004-8b295c1b-0537-44e0-b97b-0883049183d7.jpg)
+
+### backgrounds can be found [here](https://drive.google.com/drive/folders/19kI3l1eNs0jmZRAsblz5hJPLAg3g9Gst?usp=drive_link)
 
 # plugins
 
@@ -16,10 +16,9 @@ My [neovim](https://neovim.io/) config. Heavily inspired by [LazyVim](https://gi
  - [dressing.nvim](https://github.com/stevearc/dressing.nvim)
  - [flit.nvim](https://github.com/ggandor/flit.nvim)
  - [lazy.nvim](https://github.com/folke/lazy.nvim)
- - [leap.nvim](https://github.com/ggandor/leap.nvim)
  - [lazydev.nvim](https://github.com/folke/lazydev.nvim)
+ - [leap.nvim](https://github.com/ggandor/leap.nvim)
  - [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim)
- - [LuaSnip](https://github.com/L3MON4D3/LuaSnip)
  - [mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim)
  - [mason.nvim](https://github.com/williamboman/mason.nvim)
  - [mini.ai](https://github.com/echasnovski/mini.ai)
@@ -30,18 +29,19 @@ My [neovim](https://neovim.io/) config. Heavily inspired by [LazyVim](https://gi
  - [noice.nvim](https://github.com/folke/neodev.nvim)
  - [nui.nvim](https://github.com/MunifTanjim/nui.nvim)
  - [nvim-jdtls](https://github.com/mfussenegger/nvim-jdtls)
- - [nvim-lint](https://github.com/mfussenegger/nvim-lint)
  - [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
  - [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
  - [nvim-treesitter-textobjects](https://github.com/nvim-treesitter/nvim-treesitter-textobjects)
  - [nvim-ts-context-commentstring](https://github.com/JoosepAlviste/nvim-ts-context-commentstring)
  - [nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons)
- - [onedark.nvim](https://github.com/navarasu/onedark.nvim)
  - [plenary.nvim](https://github.com/nvim-lua/plenary.nvim)
  - [SchemaStore.nvim](https://github.com/b0o/SchemaStore.nvim)
  - [telescope-fzf-native.nvim](https://github.com/nvim-telescope/telescope-fzf-native.nvim)
  - [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
  - [trouble.nvim](https://github.com/folke/trouble.nvim)
+ - [vim-dadbod](https://github.com/tpope/vim-dadbod)
+ - [vim-dadbod-completion](https://github.com/kristijanhusak/vim-dadbod-completion)
+ - [vim-dadbod-ui](https://github.com/kristijanhusak/vim-dadbod-ui)
  - [vim-fugitive](https://github.com/tpope/vim-fugitive)
  - [vim-illuminate](https://github.com/RRethy/vim-illuminate)
  - [vim-repeat](https://github.com/tpope/vim-repeat)
