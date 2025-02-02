@@ -90,15 +90,12 @@ map("n", "[e", diagnostic_goto(false, "ERROR"), { desc = "prev error" })
 map("n", "]w", diagnostic_goto(true, "WARN"), { desc = "next warning" })
 map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "prev warning" })
 
--- fugitive
-map("n", "<leader>gs", vim.cmd.Git, { desc = "fugitive status" })
-
 -- stylua: ignore start
-
 -- toggle options
 map("n", "<leader>taf", function() Util.format.toggle() end, { desc = "toggle auto formatting" })
 map("n", "<leader>ts", function() Util.toggle("spell") end, { desc = "toggle spelling" })
 map("n", "<leader>tw", function() Util.toggle("wrap") end, { desc = "toggle word wrap" })
 map("n", "<leader>td", function() Util.toggle.diagnostics() end, { desc = "toggle diagnostics" })
+
 local conceallevel = vim.o.conceallevel > 0 and vim.o.conceallevel or 3
 map("n", "<leader>tc", function() Util.toggle("conceallevel", false, {0, conceallevel}) end, { desc = "toggle conceal" })

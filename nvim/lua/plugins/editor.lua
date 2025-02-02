@@ -14,7 +14,15 @@ return {
 			end,
 		},
 		keys = {
-			{ "<leader>sr", "<cmd>Telescope oldfiles<cr>", desc = "search recent files" },
+			{
+				"<leader>sr",
+				function()
+					require("telescope.builtin").oldfiles({
+						cwd_only = true,
+					})
+				end,
+				desc = "search recent files",
+			},
 			{ "<leader>sg", Util.telescope("live_grep"), desc = "grep root dir" },
 			{ "<leader>sf", Util.telescope("files"), desc = "search files" },
 			{ "<leader>sk", "<cmd>Telescope keymaps<cr>", desc = "search keymaps" },
@@ -31,7 +39,6 @@ return {
 				end,
 				desc = "search symbols",
 			},
-			{ "<leader>sth", "<cmd>Telescope highlights<cr>", desc = "tmp highlights" },
 		},
 		opts = {
 			defaults = {

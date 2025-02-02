@@ -10,16 +10,9 @@ return {
 			{
 				"<leader>pv",
 				function()
-					require("neo-tree.command").execute({ toggle = true, dir = require("util").root.get() })
+					require("neo-tree.command").execute({ toggle = true, dir = Util.root.get() })
 				end,
-				desc = "Explorer NeoTree (root dir)",
-			},
-			{
-				"<leader>pV",
-				function()
-					require("neo-tree.command").execute({ toggle = true, dir = vim.loop.cwd() })
-				end,
-				desc = "Explorer NeoTree (cwd)",
+				desc = "open neo-tree",
 			},
 		},
 		deactivate = function()
@@ -28,7 +21,7 @@ return {
 		init = function()
 			vim.api.nvim_create_autocmd("BufEnter", {
 				group = vim.api.nvim_create_augroup("Neotree_start_directory", { clear = true }),
-				desc = "Start Neo-tree with directory",
+				desc = "open with neo-tree on cwd",
 				once = true,
 				callback = function()
 					if package.loaded["neo-tree"] then
