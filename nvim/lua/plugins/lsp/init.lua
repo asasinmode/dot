@@ -71,7 +71,15 @@ return {
 						},
 					},
 				},
-				cssls = {},
+				cssls = {
+					settings = {
+						css = {
+							lint = {
+								unknownAtRules = "ignore",
+							},
+						},
+					},
+				},
 				html = {},
 				ts_ls = {
 					init_options = {
