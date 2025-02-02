@@ -63,6 +63,7 @@ return {
 				"query",
 				"regex",
 				"rust",
+				"sql",
 				"typescript",
 				"vim",
 				"vimdoc",

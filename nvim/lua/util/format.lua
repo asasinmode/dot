@@ -112,7 +112,10 @@ end
 function M.format(opts)
 	opts = opts or {}
 	local buf = opts.buf or vim.api.nvim_get_current_buf()
-	if not ((opts and opts.force) or M.enabled(buf)) then
+	-- disable auto formatting in sql files, only format with keymap (opts.force)
+	local ft = vim.bo[buf].filetype
+	local isSql = ft == "sql" or ft == "mysql" or ft == "plsql"
+	if not (opts and opts.force) and isSql or not M.enabled(buf) then
 		return
 	end
 
