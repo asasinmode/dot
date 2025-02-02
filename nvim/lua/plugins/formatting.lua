@@ -47,6 +47,8 @@ return {
 			---@type table<string, conform.FormatterConfigOverride|fun(bufnr: integer): nil|conform.FormatterConfigOverride>
 			formatters = {
 				injected = { options = { ignore_errors = true } },
+				-- formatting only runs on <leader>cf, check 'util.format'.format
+				-- this using stdin means on windows backticks (`) cannot be used for columns 🤷
 				sqlfluff = {
 					args = { "format", "--dialect", "ansi", "-" },
 					require_cwd = false,
