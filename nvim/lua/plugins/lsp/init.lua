@@ -79,6 +79,9 @@ return {
 							},
 						},
 					},
+					init_options = {
+						provideFormatter = false,
+					},
 				},
 				html = {},
 				ts_ls = {
@@ -168,6 +171,9 @@ return {
 					Util.lsp.on_attach(function(client, _)
 						if client.name == "eslint" then
 							client.server_capabilities.documentFormattingProvider = true
+						-- disable volar and ts_ls formatting, it conflicts with eslint
+						elseif client.name == "volar" or client.name == "ts_ls" then
+							client.server_capabilities.documentFormattingProvider = false
 						end
 					end)
 				end,
