@@ -48,7 +48,7 @@ function M.get()
 		PmenuSbar                   = { bg = c.bg1 }, -- Popup menu: scrollbar.
 		PmenuThumb                  = { bg = c.gray }, -- Popup menu: Thumb of the scrollbar.
 		Question                    = { fg = c.yellow }, -- |hit-enter| prompt and yes/no questions
-		QuickFixLine                = { bg = c.UNKNOWN, bold = true }, -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
+		QuickFixLine                = { bg = c.bg3, bold = true }, -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
 		Search                      = { fg = c.bg0, bg = c.yellow }, -- Last search pattern highlighting (see 'hlsearch').  Also used for similar items that need to stand out.
 		IncSearch                   = { fg = c.bg0, bg = c.orange }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
 		CurSearch                   =  "IncSearch",
@@ -115,8 +115,8 @@ function M.get()
 		helpCommand                 = { fg = c.blue },
 		htmlH1                      = { fg = c.UNKNOWN, bold = true },
 		htmlH2                      = { fg = c.UNKNOWN, bold = true },
-		qfFileName                  = { fg = c.UNKNOWN },
-		qfLineNr                    = { fg = c.UNKNOWN },
+		qfFileName                  = { fg = c.blue },
+		qfLineNr                    = { fg = c.green },
 
 		-- These groups are for the native LSP client. Some other LSP clients may use these groups, or use their own.
 		LspReferenceText            = { bg = c.bg2 }, -- used for highlighting "text" references
