@@ -98,7 +98,7 @@ function M.get()
 		["@variable.builtin"]           = { fg = c.red }, -- Variable names that are defined by the languages, like `this` or `self`.
 		["@variable.member"]            = { fg = c.cyan }, -- For fields.
 		["@variable.parameter"]         = { fg = c.red }, -- For parameters of a function.
-		["@variable.parameter.builtin"] = { fg = c.UNKNOWN }, -- For builtin parameters of a function, e.g. "..." or Smali's p[1-99]
+		["@variable.parameter.builtin"] = { fg = c.yellow }, -- For builtin parameters of a function, e.g. "..." or Smali's p[1-99]
 	}
 
 	for i, color in ipairs(c.rainbow) do
