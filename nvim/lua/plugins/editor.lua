@@ -55,10 +55,18 @@ return {
 						["<C-q>"] = function(...)
 							return require("trouble.sources.telescope").open(...)
 						end,
+						["<C-o>"] = function(...)
+							require("telescope.actions").smart_send_to_qflist(...)
+							vim.cmd("Trouble qflist open")
+						end,
 					},
 					n = {
 						["<C-q>"] = function(...)
 							return require("trouble.sources.telescope").open(...)
+						end,
+						["<C-o>"] = function(...)
+							require("telescope.actions").smart_send_to_qflist(...)
+							vim.cmd("Trouble qflist open")
 						end,
 					},
 				},
