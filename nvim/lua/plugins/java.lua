@@ -21,9 +21,9 @@ return {
 	{
 		"mfussenegger/nvim-jdtls",
 		ft = java_filetypes,
+		enabled = false,
 		opts = function()
-			local mason_registry = require("mason-registry")
-			local lombok_jar = mason_registry.get_package("jdtls"):get_install_path() .. "/lombok.jar"
+			local lombok_jar = vim.fn.expand("$MASON/share/jdtls/lombok.jar")
 			return {
 				-- How to find the root dir for a given filename. The default comes from
 				-- lspconfig which provides a function specifically for java projects.
@@ -85,17 +85,13 @@ return {
 			local mason_registry = require("mason-registry")
 			local bundles = {} ---@type string[]
 			if opts.dap and Util.has("nvim-dap") and mason_registry.is_installed("java-debug-adapter") then
-				local java_dbg_pkg = mason_registry.get_package("java-debug-adapter")
-				local java_dbg_path = java_dbg_pkg:get_install_path()
 				local jar_patterns = {
-					java_dbg_path .. "/extension/server/com.microsoft.java.debug.plugin-*.jar",
+					vim.fn.expand("$MASON/share/java-debug-adapter/com.microsoft.java.debug.plugin-*.jar"),
 				}
 				-- java-test also depends on java-debug-adapter.
 				if opts.test and mason_registry.is_installed("java-test") then
-					local java_test_pkg = mason_registry.get_package("java-test")
-					local java_test_path = java_test_pkg:get_install_path()
 					vim.list_extend(jar_patterns, {
-						java_test_path .. "/extension/server/*.jar",
+						vim.fn.expand("$MASON/share/java-test/*.jar"),
 					})
 				end
 				for _, jar_pattern in ipairs(jar_patterns) do
@@ -117,7 +113,7 @@ return {
 					},
 					settings = opts.settings,
 					-- enable CMP capabilities
-					capabilities = Util.has("cmp-nvim-lsp") and require("cmp_nvim_lsp").default_capabilities() or nil,
+					capabilities = Util.has("blink.cmp") and require("blink.cmp").get_lsp_capabilities() or nil,
 				}, opts.jdtls)
 
 				-- Existing server will be reused if the root_dir matches.

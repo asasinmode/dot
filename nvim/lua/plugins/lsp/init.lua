@@ -3,11 +3,11 @@ local Util = require("util")
 return {
 	{
 		"neovim/nvim-lspconfig",
-		event = { "BufReadPost", "BufNewFile", "BufWritePre" },
+		event = { "BufReadPre", "BufNewFile", "BufWritePre" },
 		dependencies = {
 			{ "b0o/SchemaStore.nvim", lazy = true, version = false },
 			"mason.nvim",
-			"williamboman/mason-lspconfig.nvim",
+			"mason-org/mason-lspconfig.nvim",
 			"saghen/blink.cmp",
 		},
 		---@class PluginLspOpts
@@ -83,16 +83,39 @@ return {
 						provideFormatter = false,
 					},
 				},
-				html = {},
-				ts_ls = {
+				html = {
 					init_options = {
-						plugins = {
+						provideFormatter = false,
+					},
+				},
+				vtsls = {
+					settings = {
+						complete_function_calls = true,
+						vtsls = {
+							autoUseWorkspaceTsdk = true,
+							experimental = {
+								completion = {
+									enableServerSideFuzzyMatch = true,
+								},
+							},
+						},
+						typescript = {
+							updateImportsOnFileMove = { enabled = "always" },
+							suggest = {
+								completeFunctionCalls = true,
+							},
+						},
+					},
+					tsserver = {
+						globalPlugins = {
 							{
 								name = "@vue/typescript-plugin",
 								location = vim.fn.expand(
 									"~/AppData/Local/fnm_multishells/2876_1738416076326/node_modules/@vue/typescript-plugin"
 								),
-								languages = { "javascript", "typescript", "vue" },
+								languages = { "vue", "markdown" },
+								configNamespace = "typescript",
+								enableForWorkspaceTypeScriptVersions = true,
 							},
 						},
 					},
@@ -100,9 +123,9 @@ return {
 						"javascript",
 						"typescript",
 						"vue",
+						"markdown",
 					},
 				},
-				volar = {},
 				jdtls = {},
 				yamlls = {
 					on_new_config = function(new_config)
@@ -134,9 +157,6 @@ return {
 					settings = {
 						workingDirectories = { mode = "auto" },
 						format = true,
-					},
-					experimental = {
-						useFlatConfig = true,
 					},
 					filetypes = {
 						"javascript",
@@ -171,11 +191,14 @@ return {
 					Util.lsp.on_attach(function(client, _)
 						if client.name == "eslint" then
 							client.server_capabilities.documentFormattingProvider = true
-						-- disable volar and ts_ls formatting, it conflicts with eslint
-						elseif client.name == "volar" or client.name == "ts_ls" then
+						elseif client.name == "vtsls" then
 							client.server_capabilities.documentFormattingProvider = false
 						end
 					end)
+				end,
+				vtsls = function(_, opts)
+					opts.settings.javascript =
+						vim.tbl_deep_extend("force", {}, opts.settings.typescript, opts.settings.javascript or {})
 				end,
 			},
 		},
@@ -202,53 +225,61 @@ return {
 			vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
 
 			local servers = opts.servers
-			local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
 			local has_blink, blink = pcall(require, "blink.cmp")
 			local capabilities = vim.tbl_deep_extend(
 				"force",
 				{},
 				vim.lsp.protocol.make_client_capabilities(),
-				has_cmp and cmp_nvim_lsp.default_capabilities() or {},
 				has_blink and blink.get_lsp_capabilities() or {},
 				opts.capabilities or {}
 			)
-
-			local function setup(server)
-				local server_opts = vim.tbl_deep_extend("force", {
-					capabilities = vim.deepcopy(capabilities),
-				}, servers[server] or {})
-
-				---@diagnostic disable-next-line: redundant-parameter
-				if opts.setup[server] and opts.setup[server](server, server_opts) then
-					return
-				end
-				require("lspconfig")[server].setup(server_opts)
-			end
 
 			-- get all the servers that are available through mason-lspconfig
 			local have_mason, mlsp = pcall(require, "mason-lspconfig")
 			local all_mslp_servers = {}
 			if have_mason then
-				all_mslp_servers = vim.tbl_keys(require("mason-lspconfig.mappings.server").lspconfig_to_package)
+				all_mslp_servers =
+					vim.tbl_keys(require("mason-lspconfig.mappings").get_mason_map().lspconfig_to_package)
 			end
 
+			local function configure(server)
+				local server_opts = vim.tbl_deep_extend("force", {
+					capabilities = vim.deepcopy(capabilities),
+				}, servers[server] or {})
+
+				if server_opts.enabled == false or opts.setup[server] and opts.setup[server](server, server_opts) then
+					return
+				end
+
+				vim.lsp.config(server, server_opts)
+
+				if server_opts.mason == false or not vim.tbl_contains(all_mslp_servers, server) then
+					vim.lsp.enable(server)
+					return true
+				end
+				return false
+			end
+
+			local exclude_automatic_enable = {} ---@type string[]
 			local ensure_installed = {} ---@type string[]
 			for server, server_opts in pairs(servers) do
 				if server_opts then
 					server_opts = server_opts == true and {} or server_opts
-					-- run manual setup if mason=false or if this is a server that cannot be installed with mason-lspconfig
-					if server_opts.mason == false or not vim.tbl_contains(all_mslp_servers, server) then
-						setup(server)
-					else
-						ensure_installed[#ensure_installed + 1] = server
+					if server_opts.enabled ~= false then
+						if configure(server) then
+							exclude_automatic_enable[#exclude_automatic_enable + 1] = server
+						else
+							ensure_installed[#ensure_installed + 1] = server
+						end
 					end
 				end
 			end
 
 			mlsp.setup({
-				automatic_installation = true,
+				automatic_enable = {
+					exclude = exclude_automatic_enable,
+				},
 				ensure_installed = ensure_installed,
-				handlers = { setup },
 			})
 
 			if Util.lsp.get_config("denols") and Util.lsp.get_config("ts_ls") then
@@ -263,7 +294,7 @@ return {
 
 	-- cmdline tools and lsp servers
 	{
-		"williamboman/mason.nvim",
+		"mason-org/mason.nvim",
 		cmd = "Mason",
 		build = ":MasonUpdate",
 		opts = {
@@ -310,7 +341,9 @@ return {
 		"folke/lazydev.nvim",
 		ft = "lua",
 		opts = {
-			library = {},
+			library = {
+				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
+			},
 		},
 	},
 }

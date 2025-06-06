@@ -44,14 +44,12 @@ return {
 						winhighlight = "Normal:Normal,FloatBorder:SpecialComment,BlinkCmpDocSeparator:SpecialComment,Search:None",
 					},
 				},
-				trigger = {
-					show_on_blocked_trigger_characters = { "," },
-					show_on_x_blocked_trigger_characters = { "'", '"', "(", "{", "[", "," },
-				},
 			},
 			sources = {
 				default = { "lsp", "path", "snippets", "buffer" },
-				cmdline = {},
+			},
+			cmdline = {
+				enabled = false,
 			},
 			keymap = {
 				preset = "enter",

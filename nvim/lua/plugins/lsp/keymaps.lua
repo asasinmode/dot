@@ -1,3 +1,5 @@
+local Util = require("util")
+
 local M = {}
 
 ---@type LazyKeysLspSpec[]|nil
@@ -17,7 +19,6 @@ function M.get()
 			{ "gr", "<cmd>Telescope lsp_references<cr>", desc = "go to references" },
 			{ "gD", vim.lsp.buf.declaration, desc = "go to declaration" },
 			{ "gI", function() require("telescope.builtin").lsp_implementations({ reuse_win = true }) end, desc = "go to implementation" },
-			{ "gt", function() require("telescope.builtin").lsp_type_definitions({ reuse_win = true }) end, desc = "go to type definition" },
 			{ "K", vim.lsp.buf.hover, desc = "hover" },
 			{ "gK", vim.lsp.buf.signature_help, desc = "signature help", has = "signatureHelp" },
 			{ "<leader>rn", vim.lsp.buf.rename, desc = "Rename", has = "rename" },
@@ -60,8 +61,8 @@ function M.resolve(buffer)
 		return {}
 	end
 	local spec = M.get()
-	local opts = require("util").opts("nvim-lspconfig")
-	local clients = require("util").lsp.get_clients({ bufnr = buffer })
+	local opts = Util.opts("nvim-lspconfig")
+	local clients = Util.lsp.get_clients({ bufnr = buffer })
 	for _, client in ipairs(clients) do
 		local maps = opts.servers[client.name] and opts.servers[client.name].keys or {}
 		vim.list_extend(spec, maps)
