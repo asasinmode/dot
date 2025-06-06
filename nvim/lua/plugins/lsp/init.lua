@@ -60,10 +60,6 @@ return {
 					},
 				},
 				jsonls = {
-					on_new_config = function(new_config)
-						new_config.settings.json.schemas = new_config.settings.json.schemas or {}
-						vim.list_extend(new_config.settings.json.schemas, require("schemastore").json.schemas())
-					end,
 					settings = {
 						json = {
 							format = { enable = true },
@@ -128,13 +124,6 @@ return {
 				},
 				jdtls = {},
 				yamlls = {
-					on_new_config = function(new_config)
-						new_config.settings.yaml.schemas = vim.tbl_deep_extend(
-							"force",
-							new_config.settings.yaml.schemas or {},
-							require("schemastore").yaml.schemas()
-						)
-					end,
 					settings = {
 						redhat = { telemetry = { enabled = false } },
 						yaml = {
@@ -173,6 +162,7 @@ return {
 						"css",
 						"markdown",
 						"json",
+						"yaml",
 					},
 				},
 			},
@@ -180,12 +170,11 @@ return {
 				jdtls = function()
 					return true
 				end,
-				yamlls = function()
-					Util.lsp.on_attach(function(client, _)
-						if client.name == "yamlls" then
-							client.server_capabilities.documentFormattingProvider = true
-						end
-					end)
+				jsonls = function(_, opts)
+					opts.settings.json.schemas = require("schemastore").json.schemas()
+				end,
+				yamlls = function(_, opts)
+					opts.settings.yaml.schemas = require("schemastore").yaml.schemas()
 				end,
 				eslint = function()
 					Util.lsp.on_attach(function(client, _)
