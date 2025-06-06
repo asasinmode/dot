@@ -94,24 +94,24 @@ return {
 									enableServerSideFuzzyMatch = true,
 								},
 							},
+							tsserver = {
+								globalPlugins = {
+									{
+										name = "@vue/typescript-plugin",
+										location = vim.fn.expand(
+											"~/AppData/Local/fnm_multishells/2876_1738416076326/node_modules/@vue/typescript-plugin"
+										),
+										languages = { "vue", "markdown" },
+										configNamespace = "typescript",
+										enableForWorkspaceTypeScriptVersions = true,
+									},
+								},
+							},
 						},
 						typescript = {
 							updateImportsOnFileMove = { enabled = "always" },
 							suggest = {
 								completeFunctionCalls = true,
-							},
-						},
-					},
-					tsserver = {
-						globalPlugins = {
-							{
-								name = "@vue/typescript-plugin",
-								location = vim.fn.expand(
-									"~/AppData/Local/fnm_multishells/2876_1738416076326/node_modules/@vue/typescript-plugin"
-								),
-								languages = { "vue", "markdown" },
-								configNamespace = "typescript",
-								enableForWorkspaceTypeScriptVersions = true,
 							},
 						},
 					},
