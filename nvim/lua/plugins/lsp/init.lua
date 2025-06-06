@@ -270,14 +270,6 @@ return {
 				},
 				ensure_installed = ensure_installed,
 			})
-
-			if Util.lsp.get_config("denols") and Util.lsp.get_config("ts_ls") then
-				local is_deno = require("lspconfig.util").root_pattern("deno.json", "deno.jsonc")
-				Util.lsp.disable("ts_ls", is_deno)
-				Util.lsp.disable("denols", function(root_dir)
-					return not is_deno(root_dir)
-				end)
-			end
 		end,
 	},
 
