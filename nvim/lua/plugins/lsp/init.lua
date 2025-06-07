@@ -84,6 +84,7 @@ return {
 						provideFormatter = false,
 					},
 				},
+				vue_ls = {},
 				vtsls = {
 					settings = {
 						complete_function_calls = true,
@@ -98,8 +99,9 @@ return {
 								globalPlugins = {
 									{
 										name = "@vue/typescript-plugin",
-										location = vim.fn.expand(
-											"~/AppData/Local/fnm_multishells/2876_1738416076326/node_modules/@vue/typescript-plugin"
+										location = Util.lsp.get_pkg_path(
+											"vue-language-server",
+											"/node_modules/@vue/language-server"
 										),
 										languages = { "vue", "markdown" },
 										configNamespace = "typescript",
@@ -180,7 +182,7 @@ return {
 					Util.lsp.on_attach(function(client, _)
 						if client.name == "eslint" then
 							client.server_capabilities.documentFormattingProvider = true
-						elseif client.name == "vtsls" then
+						elseif client.name == "vtsls" or client.name == "vue_ls" then
 							client.server_capabilities.documentFormattingProvider = false
 						end
 					end)
