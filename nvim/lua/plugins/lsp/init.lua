@@ -150,7 +150,7 @@ return {
 						"javascript",
 						"typescript",
 						"vue",
-						"markdown",
+						-- "markdown",
 					},
 				},
 				jdtls = {},
