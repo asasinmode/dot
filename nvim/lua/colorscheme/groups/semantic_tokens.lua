@@ -9,6 +9,7 @@ function M.get()
 		["@lsp.type.boolean"]                      = "@boolean",
 		["@lsp.type.builtinType"]                  = "@type.builtin",
 		["@lsp.type.comment"]                      = "@comment",
+		-- ["@lsp.type.component"]                    = "@type.builtin", -- maybe color it smth, <CustomVueComponents>
 		["@lsp.type.decorator"]                    = "@attribute",
 		["@lsp.type.deriveHelper"]                 = "@attribute",
 		["@lsp.type.enum"]                         = "@type",
