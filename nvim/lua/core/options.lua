@@ -44,11 +44,8 @@ opt.winminwidth = 5 -- minimum window width
 opt.cmdheight = 0
 
 vim.o.formatexpr = "v:lua.require'util'.format.formatexpr()"
+vim.o.exrc = true
+vim.o.secure = true
 
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0
-
-vim.cmd([[
-  aunmenu PopUp
-  anoremenu PopUp.Inspect     <cmd>Inspect<CR>
-]])
