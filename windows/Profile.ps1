@@ -1,4 +1,4 @@
-oh-my-posh init pwsh --config "D:\Projects\dot\powershell\asasinmode.omp.json" | Invoke-Expression
+oh-my-posh init pwsh --config "D:\Projects\dot\windows\asasinmode.omp.json" | Invoke-Expression
 
 fnm env --corepack-enabled | Out-String | Invoke-Expression
 
