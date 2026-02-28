@@ -110,6 +110,14 @@ return {
 		opts = {
 			enable_autocmd = false,
 		},
+		init = function()
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = { "css", "scss", "less", "vue", "html" },
+				callback = function()
+					vim.bo.comments = vim.bo.comments:gsub("n:>,?", "")
+				end,
+			})
+		end,
 	},
 	{
 		"echasnovski/mini.comment",
