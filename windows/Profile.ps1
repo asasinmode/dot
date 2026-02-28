@@ -1,6 +1,6 @@
 oh-my-posh init pwsh --config "D:\Projects\dot\windows\asasinmode.omp.json" | Invoke-Expression
 
-fnm env --corepack-enabled | Out-String | Invoke-Expression
+fnm env | Out-String | Invoke-Expression
 
 Import-Module -Name Terminal-Icons
 Import-Module PSReadLine
