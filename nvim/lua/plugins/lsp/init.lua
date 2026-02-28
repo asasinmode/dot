@@ -124,7 +124,7 @@ return {
 						-- "markdown",
 					},
 				},
-				jdtls = {},
+				-- jdtls = {},
 				yamlls = {
 					settings = {
 						redhat = { telemetry = { enabled = false } },
@@ -167,11 +167,14 @@ return {
 						"yaml",
 					},
 				},
+				unocss = {
+					filetypes = { "html", "vue", "css" },
+				},
 			},
 			setup = {
-				jdtls = function()
-					return true
-				end,
+				-- jdtls = function()
+				-- 	return true
+				-- end,
 				jsonls = function(_, opts)
 					opts.settings.json.schemas = require("schemastore").json.schemas()
 				end,
