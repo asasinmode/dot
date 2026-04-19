@@ -87,31 +87,38 @@ return {
 
 	-- easily jump to any location and enhanced f/t motions for Leap
 	{
-		"ggandor/flit.nvim",
-		keys = function()
-			local ret = {}
-			for _, key in ipairs({ "f", "F", "t", "T" }) do
-				ret[#ret + 1] = { key, mode = { "n", "x", "o" }, desc = key }
+		url = "https://codeberg.org/andyg/leap.nvim",
+		opts = {},
+		config = function()
+			vim.keymap.set({ "n", "x", "o" }, "s", "<Plug>(leap)")
+
+			-- based on [1-character search (enhanced f/t motions)](https://codeberg.org/andyg/leap.nvim#search-and-motions)
+			local function ft(key_specific_args)
+				require("leap").leap(vim.tbl_deep_extend("keep", key_specific_args, {
+					inputlen = 1,
+					inclusive = true,
+					opts = {
+						labels = "",
+						safe_labels = vim.fn.mode(1):match("o") and "" or nil,
+					},
+				}))
 			end
-			return ret
-		end,
-		opts = { labeled_modes = "nx" },
-	},
-	{
-		"ggandor/leap.nvim",
-		keys = {
-			{ "s", mode = { "n", "x", "o" }, desc = "Leap forward to" },
-			{ "S", mode = { "n", "x", "o" }, desc = "Leap backward to" },
-			{ "gs", mode = { "n", "x", "o" }, desc = "Leap from windows" },
-		},
-		config = function(_, opts)
-			local leap = require("leap")
-			for k, v in pairs(opts) do
-				leap.opts[k] = v
-			end
-			leap.add_default_mappings(true)
-			vim.keymap.del({ "x", "o" }, "x")
-			vim.keymap.del({ "x", "o" }, "X")
+
+			local clever = require("leap.user").with_traversal_keys
+			local clever_f, clever_t = clever("f", "F"), clever("t", "T")
+
+			vim.keymap.set({ "n", "x", "o" }, "f", function()
+				ft({ opts = clever_f })
+			end)
+			vim.keymap.set({ "n", "x", "o" }, "F", function()
+				ft({ backward = true, opts = clever_f })
+			end)
+			vim.keymap.set({ "n", "x", "o" }, "t", function()
+				ft({ offset = -1, opts = clever_t })
+			end)
+			vim.keymap.set({ "n", "x", "o" }, "T", function()
+				ft({ backward = true, offset = 1, opts = clever_t })
+			end)
 		end,
 	},
 
