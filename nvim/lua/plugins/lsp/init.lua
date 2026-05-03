@@ -185,8 +185,18 @@ return {
 					Util.lsp.on_attach(function(client, _)
 						if client.name == "eslint" then
 							client.server_capabilities.documentFormattingProvider = true
-						elseif client.name == "vtsls" or client.name == "vue_ls" or client.name == "jsonls" then
+						elseif
+							client.name == "vtsls"
+							or client.name == "vue_ls"
+							or client.name == "jsonls"
+							or client.name == "yamlls"
+						then
 							client.server_capabilities.documentFormattingProvider = false
+						end
+
+						if client.name == "yamlls" then
+							---@diagnostic disable-next-line: inject-field
+							client.settings.yaml.format.enable = false
 						end
 					end)
 				end,
