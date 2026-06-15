@@ -8,7 +8,8 @@ return {
 		dependencies = {
 			"nvim-telescope/telescope-fzf-native.nvim",
 			-- this doesnt work on windows for some reason, I run it manually in nvim-data/lazy/telescope-fzf-native.nvim
-			build = 'cmake -S. -Bbuild -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release',
+			-- c build tools for windows can be from "winget install -e --id BrechtSanders.WinLibs.POSIX.UCRT"
+			build = 'cmake -S. -Bbuild -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release',
 			config = function()
 				require("telescope").load_extension("fzf")
 			end,
