@@ -74,10 +74,10 @@ return {
 					},
 					{
 						provider = "groq",
-						name = "OllamaLlama3.3",
+						name = "GPT OSS 120B",
 						chat = true,
 						model = {
-							model = "llama-3.3-70b-versatile",
+							model = "openai/gpt-oss-120b",
 							temperature = 0.8,
 							top_p = 1,
 							min_p = 0.05,
