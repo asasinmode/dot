@@ -32,9 +32,9 @@ return {
 		opts = {
 			-- will use these options when formatting with the conform.nvim formatter
 			format = {
-				timeout_ms = 3000,
-				async = false,
-				quiet = false,
+				timeout_ms = 5000,
+				async = true,
+				quiet = true,
 				lsp_format = "fallback",
 			},
 			formatters_by_ft = {
@@ -43,6 +43,18 @@ return {
 				sql = { "sqlfluff" },
 				mysql = { "sqlfluff" },
 				plsql = { "sqlfluff" },
+				javascript = { "eslint_d" },
+				javascriptreact = { "eslint_d" },
+				typescript = { "eslint_d" },
+				typescriptreact = { "eslint_d" },
+				vue = { "eslint_d" },
+				svelte = { "eslint_d" },
+				astro = { "eslint_d" },
+				html = { "eslint_d" },
+				css = { "eslint_d" },
+				markdown = { "eslint_d" },
+				json = { "eslint_d" },
+				yaml = { "eslint_d" },
 			},
 			---@type table<string, conform.FormatterConfigOverride|fun(bufnr: integer): nil|conform.FormatterConfigOverride>
 			formatters = {

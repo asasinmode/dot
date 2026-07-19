@@ -107,6 +107,14 @@ return {
 										configNamespace = "typescript",
 										enableForWorkspaceTypeScriptVersions = true,
 									},
+									{
+										name = "@astrojs/ts-plugin",
+										location = Util.lsp.get_pkg_path(
+											"astro-language-server",
+											"/node_modules/@astrojs/ts-plugin"
+										),
+										enableForWorkspaceTypeScriptVersions = true,
+									},
 								},
 							},
 						},
@@ -147,7 +155,7 @@ return {
 				eslint = {
 					settings = {
 						workingDirectories = { mode = "auto" },
-						format = true,
+						format = false,
 					},
 					filetypes = {
 						"javascript",
@@ -190,6 +198,7 @@ return {
 							or client.name == "vue_ls"
 							or client.name == "jsonls"
 							or client.name == "yamlls"
+							or client.name == "astro"
 						then
 							client.server_capabilities.documentFormattingProvider = false
 						end

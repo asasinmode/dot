@@ -35,7 +35,6 @@ return {
 				"vimdoc",
 				"vue",
 				"yaml",
-				"astro",
 			})
 		end,
 	},
