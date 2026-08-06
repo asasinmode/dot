@@ -1,4 +1,5 @@
 local Util = require("util")
+local LazyUtil = require("lazy.core.util")
 
 ---@class asasinmode.util.lsp
 local M = {}
@@ -187,7 +188,7 @@ function M.get_pkg_path(pkg, path, opts)
 	if opts.warn then
 		vim.schedule(function()
 			if not vim.loop.fs_stat(ret) then
-				M.warn(
+				LazyUtil.warn(
 					("Mason package path not found for **%s**:\n- `%s`\nYou may need to force update the package."):format(
 						pkg,
 						path

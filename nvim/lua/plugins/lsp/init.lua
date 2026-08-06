@@ -156,6 +156,7 @@ return {
 					settings = {
 						workingDirectories = { mode = "auto" },
 						format = false,
+						run = "onSave",
 					},
 					filetypes = {
 						"javascript",

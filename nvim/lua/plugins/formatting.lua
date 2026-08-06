@@ -33,7 +33,7 @@ return {
 			-- will use these options when formatting with the conform.nvim formatter
 			format = {
 				timeout_ms = 5000,
-				async = true,
+				async = false,
 				quiet = true,
 				lsp_format = "fallback",
 			},
