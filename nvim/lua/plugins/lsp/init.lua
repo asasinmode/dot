@@ -152,33 +152,10 @@ return {
 						},
 					},
 				},
-				eslint = {
-					settings = {
-						workingDirectories = { mode = "auto" },
-						format = false,
-						run = "onSave",
-					},
-					filetypes = {
-						"javascript",
-						"javascriptreact",
-						"javascript.jsx",
-						"typescript",
-						"typescriptreact",
-						"typescript.tsx",
-						"vue",
-						"svelte",
-						"astro",
-						-- antfu eslint config formatting
-						"html",
-						"css",
-						"markdown",
-						"json",
-						"yaml",
-					},
-				},
 				unocss = {
 					filetypes = { "html", "vue", "css" },
 				},
+				oxlint = {},
 			},
 			setup = {
 				-- jdtls = function()
@@ -190,11 +167,9 @@ return {
 				yamlls = function(_, opts)
 					opts.settings.yaml.schemas = require("schemastore").yaml.schemas()
 				end,
-				eslint = function()
+				oxlint = function()
 					Util.lsp.on_attach(function(client, _)
-						if client.name == "eslint" then
-							client.server_capabilities.documentFormattingProvider = true
-						elseif
+						if
 							client.name == "vtsls"
 							or client.name == "vue_ls"
 							or client.name == "jsonls"
